@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <title>Drag and Drop examples</title>
     <style>
-        .draggable-items {
+
+        .drop-target {
             display: flex;
             align-items: center;
             justify-content: space-around;
-        }
-
-        .drop-target {
             border: 3px dashed lightgrey;
-            width: 500px;
+            min-width: 500px;
             min-height: 100px;
+            max-width: 80%;
             padding: 15px;
             margin: 30px auto;
             transition: all .3s ease-out;
@@ -24,14 +23,27 @@
             margin: 5px;
         }
 
-        .is-hovered {
+        .is-over {
             border: 3px dashed lightgrey;
             background-color: papayawhip;
+        }
+
+        .is-dragged {
+            visibility: hidden;
+        }
+
+        .is-drag-started {
+            opacity: 0.5;
+            color: green;
+        }
+
+        .is-entered {
+            background-color: red;
         }
     </style>
 </head>
 <body>
-<div class="draggable-items">
+<div class="drop-target">
     <div
             class="draggable-item"
             id="draggable1"
@@ -55,41 +67,87 @@
             alt="image"
     >
 </div>
-<div
-        class="drop-target"
-        id="target"
-        ondrop="handleDrop(event);"
-        ondragover="handleDragOver(event);"
-        ondragleave="handleDragLeave(event)"
->
-</div>
+<div class="drop-target"></div>
+<panel id="panel" style="opacity: 0.6; display: none">
+    <description id="pb">Drag Me</description>
+</panel>
 <script>
 
-    document.querySelectorAll('.draggable-item').forEach(function(element) {
-        element.addEventListener('dragstart', handleDragStart)
+    document.querySelectorAll('.draggable-item').forEach(function (element) {
+        element.addEventListener('dragstart', handleDragStart);
+        element.addEventListener('drag', handleDrag);
+        element.addEventListener('dragend', handleDragEnd);
+    });
+
+    document.querySelectorAll('.drop-target').forEach(function (element) {
+        element.addEventListener('drop', handleDrop);
+        element.addEventListener('dragover', handleDragOver);
+        element.addEventListener('dragleave', handleDragLeave);
     });
 
     function handleDragStart(event) {
         event.dataTransfer.setData("text/plain", event.target.id);
-        event.dropEffect = "move";
+        event.target.classList.add('is-drag-started');
+        //event.dataTransfer.setDragImage(document.getElementById("panel"), 20, 20);
+        //event.dataTransfer.dropEffect = "move";
     }
 
     function handleDragOver(event) {
-        event.preventDefault();
-        event.target.classList.add('is-hovered');
-        event.dataTransfer.dropEffect = "move"
+        event.preventDefault(); // preventing touch and pointer events
+        event.target.classList.add('is-over');
+        event.dataTransfer.dropEffect = "move";
     }
 
     function handleDrop(event) {
         event.preventDefault();
-        var data = event.dataTransfer.getData("text");
-        event.target.classList.remove('is-hovered');
-        event.target.appendChild(document.getElementById(data).cloneNode(true));
+        const dataItems = event.dataTransfer.items; //DataTransferItemList object
+        for (let i = 0; i < dataItems.length; i += 1) {
+            if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/plain')) {
+                dataItems[i].getAsString(function (s) {
+                    event.target.appendChild(document.getElementById(s));
+                });
+            } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/html')) {
+                console.log("... Drop: HTML");
+            } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/uri-list')) {
+                console.log("... Drop: URI");
+            } else if (dataItems[i].kind === 'file' && dataItems[i].type.match('^image/')) {
+                const f = dataItems[i].getAsFile();
+                console.log("... Drop: File ");
+            }
+        }
+        event.target.classList.remove('is-over');
     }
 
     function handleDragLeave(event) {
-        event.target.classList.remove('is-hovered');
+        event.target.classList.remove('is-over');
     }
+
+    function handleDrag(event) {
+        event.target.classList.add('is-dragged');
+    }
+
+    function handleDragEnd(event) {
+        event.target.classList.remove('is-dragged');
+        event.target.classList.remove('is-drag-started');
+    }
+
+    function handleFileSelect(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        const files = evt.dataTransfer.files; // FileList object.
+
+        // files is a FileList of File objects. List some properties.
+        const output = [];
+        for (let i = 0, f; f = files[i]; i++) {
+            output.push('<li><strong>', f.name, '</strong> (', f.type || 'n/a', ') - ',
+                f.size, ' bytes, last modified: ',
+                f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                '</li>');
+        }
+        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+    }
+
 </script>
 </body>
 </html>
