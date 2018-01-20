@@ -16,8 +16,12 @@
             min-height: 100px;
             padding: 15px;
             margin: 30px auto;
-            position: relative;
             transition: all .3s ease-out;
+        }
+
+        .drop-target .draggable-item {
+            display: inline-block;
+            margin: 5px;
         }
 
         .is-hovered {
@@ -27,47 +31,27 @@
     </style>
 </head>
 <body>
-<script>
-    function handleDragStart(event) {
-        event.dataTransfer.setData("text/plain", event.target.id);
-        event.dropEffect = "move";
-    }
-    function handleDragOver(event) {
-        event.preventDefault();
-        event.target.classList.add('is-hovered');
-        event.dataTransfer.dropEffect = "move"
-    }
-    function handleDrop(event) {
-        event.preventDefault();
-        var data = event.dataTransfer.getData("text");
-        event.target.classList.remove('is-hovered');
-        event.target.appendChild(document.getElementById(data).cloneNode(true));
-    }
-    function handleDragLeave(event) {
-        event.target.classList.remove('is-hovered');
-    }
-</script>
 <div class="draggable-items">
     <div
+            class="draggable-item"
             id="draggable1"
             draggable="true"
-            ondragstart="handleDragStart(event);"
     >
         This element is draggable.
     </div>
     <ul
+            class="draggable-item"
             id="draggable2"
             draggable="true"
-            ondragstart="handleDragStart(event);"
     >
         <li>First element</li>
         <li>Second element</li>
         <li>Third element</li>
     </ul>
     <img
+            class="draggable-item"
             id="draggable3"
             src="https://networksynapse.net/wp-content/uploads/2016/08/js-e1472086839814.jpg"
-            ondragstart="handleDragStart(event);"
             alt="image"
     >
 </div>
@@ -79,5 +63,33 @@
         ondragleave="handleDragLeave(event)"
 >
 </div>
+<script>
+
+    document.querySelectorAll('.draggable-item').forEach(function(element) {
+        element.addEventListener('dragstart', handleDragStart)
+    });
+
+    function handleDragStart(event) {
+        event.dataTransfer.setData("text/plain", event.target.id);
+        event.dropEffect = "move";
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.target.classList.add('is-hovered');
+        event.dataTransfer.dropEffect = "move"
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        var data = event.dataTransfer.getData("text");
+        event.target.classList.remove('is-hovered');
+        event.target.appendChild(document.getElementById(data).cloneNode(true));
+    }
+
+    function handleDragLeave(event) {
+        event.target.classList.remove('is-hovered');
+    }
+</script>
 </body>
 </html>
