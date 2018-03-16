@@ -3,58 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Speech</title>
+    <style>
+        body {
+            max-width: 100vw;
+            flex-direction: column;
+            display: flex;
+            align-items: center;
+        }
+
+        button {
+            padding: 5px 10px;
+        }
+
+        .color {
+            padding: 5px 10px;
+        }
+
+        .palette {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .output {
+            margin-top: 50px;
+            border: 1px solid grey;
+        }
+    </style>
 </head>
 <body>
-
-
+<div class="controls">
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+</div>
+<div class="palette"></div>
 <div class="output"></div>
-<button id="start">Start</button>
-<button id="stop">Stop</button>
+
 <script>
 
-  const synth = window.speechSynthesis;
+    const colors = ['aqua', 'azure', 'beige', 'bisque', 'black', 'blue', 'brown', 'chocolate', 'coral', 'crimson', 'cyan', 'fuchsia', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'green', 'indigo', 'ivory', 'khaki', 'lavender', 'lime', 'linen', 'magenta', 'maroon', 'moccasin', 'navy', 'olive', 'orange', 'orchid', 'peru', 'pink', 'plum', 'purple', 'red', 'salmon', 'sienna', 'silver', 'snow', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'white', 'yellow'];
+    const grammar = '#JSGF V1.0; grammar colors; public <color> = ' + colors.join(' | ') + ' ;'
+    const recognition = new webkitSpeechRecognition();
+    const speechRecognitionList = new webkitSpeechGrammarList();
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
+    recognition.continuous = true;
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 5;
 
-  const grammar = '#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | brown | chocolate | coral | crimson | cyan | fuchsia | ghostwhite | gold | goldenrod | gray | green | indigo | ivory | khaki | lavender | lime | linen | magenta | maroon | moccasin | navy | olive | orange | orchid | peru | pink | plum | purple | red | salmon | sienna | silver | snow | tan | teal | thistle | tomato | turquoise | violet | white | yellow ;'
-  const recognition = new webkitSpeechRecognition();
-  const speechRecognitionList = new webkitSpeechGrammarList();
-  speechRecognitionList.addFromString(grammar, 1);
-  recognition.grammars = speechRecognitionList;
-  //recognition.continuous = false;
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 5;
+    const diagnostic = document.querySelector('.output');
+    const bg = document.querySelector('html');
 
-  const diagnostic = document.querySelector('.output');
-  const bg = document.querySelector('html');
+    function stopRecognition() {
+        recognition.stop();
+        console.log('Stopped recognition.');
+    }
 
-  function stopRecognition() {
-      recognition.stop();
-      console.log('Stopped recognition.');
-  }
+    function getColors() {
+        return colors.reduce((acc, color) =>
+            `${acc}<span class="color" style="background-color:${color};">${color}</span>`, '');
+    }
 
-  function startRecognition() {
-      recognition.start();
-      console.log('Ready to receive a color command.');
-  }
+    document.querySelector('.palette').innerHTML = getColors();
 
-  document.querySelector('#start').addEventListener('click', startRecognition);
-  document.querySelector('#stop').addEventListener('click', stopRecognition);
+    function startRecognition() {
+        recognition.start();
+        console.log('Ready to receive a color command.');
+    }
 
-  recognition.onresult = function(event) {
-      const result = event.results[0][0].transcript;
-      console.log(event.results);
-      diagnostic.textContent = 'Result received: ' + result;
+    document.querySelector('#start').addEventListener('click', startRecognition);
+    document.querySelector('#stop').addEventListener('click', stopRecognition);
 
-      if(result.toLowerCase() === 'stop') {
-          bg.style.backgroundColor = 'white';
-          stopRecognition();
-          return;
-      }
-      synth.speak(new SpeechSynthesisUtterance(result));
-      bg.style.backgroundColor = result;
-      setTimeout(startRecognition, 1000);
-  }
-  
+    recognition.onresult = function (event) {
+        const result = event.results[0][0].transcript;
+        console.log(event.results);
+        diagnostic.innerHTML = 'Result received: ' + result;
+
+        if (result.toLowerCase() === 'stop') {
+            bg.style.backgroundColor = 'white';
+            stopRecognition();
+            return;
+        }
+        bg.style.backgroundColor = result.toLowerCase();
+        stopRecognition();
+    }
+
 </script>
 </body>
 </html>
