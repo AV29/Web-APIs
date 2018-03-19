@@ -1,0 +1,17 @@
+#browserDialog {
+    border-radius: 10px;
+    border: 2px solid grey;
+}
+
+#browserDialog::backdrop {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#result {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+body {
+    text-align: center;
+}

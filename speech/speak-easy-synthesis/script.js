@@ -1,22 +1,22 @@
-var synth = window.speechSynthesis;
+const synth = window.speechSynthesis;
 
-var inputForm = document.querySelector('form');
-var inputTxt = document.querySelector('.txt');
-var voiceSelect = document.querySelector('select');
+const inputForm = document.querySelector('form');
+const inputTxt = document.querySelector('.txt');
+const voiceSelect = document.querySelector('select');
 
-var pitch = document.querySelector('#pitch');
-var pitchValue = document.querySelector('.pitch-value');
-var rate = document.querySelector('#rate');
-var rateValue = document.querySelector('.rate-value');
+const pitch = document.querySelector('#pitch');
+const pitchValue = document.querySelector('.pitch-value');
+const rate = document.querySelector('#rate');
+const rateValue = document.querySelector('.rate-value');
 
-var voices = [];
+let voices = [];
 
 function populateVoiceList() {
   voices = synth.getVoices();
-  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+  const selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
   voiceSelect.innerHTML = '';
-  for(i = 0; i < voices.length ; i++) {
-    var option = document.createElement('option');
+  for(let i = 0; i < voices.length ; i++) {
+    const option = document.createElement('option');
     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
     
     if(voices[i].default) {
@@ -41,15 +41,15 @@ function speak(){
         return;
     }
     if (inputTxt.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(inputTxt.value);
+    const utterThis = new SpeechSynthesisUtterance(inputTxt.value);
     utterThis.onend = function (event) {
         console.log('SpeechSynthesisUtterance.onend');
-    }
+    };
     utterThis.onerror = function (event) {
         console.error('SpeechSynthesisUtterance.onerror');
-    }
-    var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for(i = 0; i < voices.length ; i++) {
+    };
+    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+    for(let i = 0; i < voices.length ; i++) {
       if(voices[i].name === selectedOption) {
         utterThis.voice = voices[i];
       }
@@ -66,7 +66,7 @@ inputForm.onsubmit = function(event) {
   speak();
 
   inputTxt.blur();
-}
+};
 
 pitch.onchange = function() {
   pitchValue.textContent = pitch.value;

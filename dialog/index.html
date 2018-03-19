@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dialog Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<dialog id="browserDialog">
+    <form method="dialog">
+        <section>
+            <p><label for="browser">Choose browser:</label>
+                <select id="browser" name="browser">
+                    <option></option>
+                    <option value="Chrome">Chrome</option>
+                    <option value="FireFox">FireFox</option>
+                    <option value="Safari">Safari</option>
+                </select></p>
+        </section>
+        <menu>
+            <button id="cancel" type="reset">Cancel</button>
+            <button type="submit">Confirm</button>
+        </menu>
+    </form>
+</dialog>
+
+<menu>
+    <button id="updateDetails">Update details</button>
+</menu>
+
+<p id="result"></p>
+<script src="script.js"></script>
+</body>
+</html>
