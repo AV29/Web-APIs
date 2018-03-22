@@ -1,22 +1,26 @@
 const videoElement = document.querySelector("#video");
-//const audioElement = document.querySelector("#audio");
+const audioElement = document.querySelector("#audio");
 const logElement = document.querySelector("#log");
 const audioList = document.querySelector("#audioList");
 const videoList = document.querySelector("#videoList");
 const startButton = document.querySelector("#start");
 const stopButton = document.querySelector("#stop");
+const canvas = document.getElementById('canvas');
+const takePicture = document.getElementById('takePicture');
 
 let audioTrack = null;
 let videoTrack = null;
+let streaming = false;
+let width = 320;    // We will scale the photo width to this
+let height = 0;
 
 const constraints = {
-    video: //false
-        {
-            width: 160,
-            height: 120,
-            frameRate: 30
-        }
-    ,
+    echoCancellation: true,
+    video: {
+        width: 160,
+        height: 120,
+        frameRate: 30
+    },
     audio: {
         sampleRate: 44100,
         sampleSize: 16,
@@ -26,6 +30,10 @@ const constraints = {
 
 startButton.addEventListener("click", startStream);
 stopButton.addEventListener("click", stopStream);
+takePicture.addEventListener('click', function (ev) {
+    takepicture();
+    ev.preventDefault();
+}, false);
 
 navigator.mediaDevices.ondevicechange = handleDeviceChange;
 
@@ -45,11 +53,12 @@ function stopStream() {
 
     videoTrack = audioTrack = null;
     videoElement.srcObject = null;
+    audioElement.srcObject = null;
 }
 
 function applyStream(stream) {
     videoElement.srcObject = stream;
-    //audioElement.srcObject = stream;
+    audioElement.srcObject = stream;
     getMediaTracks(stream);
     updateDeviceList();
 }
@@ -97,3 +106,19 @@ function handleDeviceChange(event) {
     console.log('Changed', event);
     updateDeviceList();
 }
+
+function takepicture() {
+    const context = canvas.getContext('2d');
+    if (width && height) {
+        canvas.width = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
+    }
+}
+
+video.addEventListener('canplay', () => {
+    if (!streaming) {
+        height = video.videoHeight / (video.videoWidth / width);
+        streaming = true;
+    }
+}, false);
