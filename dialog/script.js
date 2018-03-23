@@ -6,6 +6,7 @@ const dialog = document.getElementById('browserDialog');
 
 updateButton.addEventListener('click', function () {
     dialog.showModal();
+    console.log('asdasdasd');
 });
 
 selectBrowser.addEventListener('change', function (e) {

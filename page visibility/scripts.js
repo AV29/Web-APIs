@@ -1,7 +1,7 @@
 const videoElement = document.getElementById("videoElement");
 
 function handleVisibilityChange() {
-    if (document.hidden) {
+    if (!document.hidden) {
         videoElement.pause();
     } else {
         videoElement.play();

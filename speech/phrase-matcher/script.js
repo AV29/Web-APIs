@@ -1,6 +1,6 @@
-const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+const SpeechRecognition = window.webkitSpeechRecognition;//SpeechRecognition || webkitSpeechRecognition;
+const SpeechGrammarList = window.webkitSpeechGrammarList;
+const SpeechRecognitionEvent = window.webkitSpeechRecognitionEvent;
 
 const phrases = [
     'I love to sing because it\'s fun',
