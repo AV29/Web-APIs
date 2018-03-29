@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration'
 import * as styles from '../../../styles/global.less';
+import * as ownStyles from './PhraseMatcher.less';
 
 const {phraseMatcher} = routesConfiguration;
 
@@ -124,16 +125,16 @@ class PhraseMatcher extends Component {
 
   render() {
     return (
-      <div className={styles.pageWrapper}>
+      <div className={`${styles.pageWrapper} ${ownStyles.phraseMatcherWrapper}`}>
         <h2>{phraseMatcher.title}</h2>
         <p>Press the button then say the phrase to test the recognition.</p>
 
         <button>Start new test</button>
 
         <div>
-          <p className="phrase">Phrase...</p>
-          <p className="result">Right or wrong?</p>
-          <p className="output">...diagnostic messages</p>
+          <p className={ownStyles.phrase}>Phrase...</p>
+          <p className={ownStyles.result}>Right or wrong?</p>
+          <p className={ownStyles.output}>...diagnostic messages</p>
         </div>
       </div>
     );
