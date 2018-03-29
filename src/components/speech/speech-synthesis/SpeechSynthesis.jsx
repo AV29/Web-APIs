@@ -1,8 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import routesConfiguration from '../../../routing/routesConfiguration'
+import * as styles from '../../../styles/global.less';
 
-const PhraseMatcher = () => (
-  <h1>Hello from Speech Synthesis</h1>
-);
+const {speechSynthesis} = routesConfiguration;
 
-export default PhraseMatcher;
+const SpeechSynthesis = () => {
+  return (
+    <div className={styles.pageWrapper}>
+      <h2>{speechSynthesis.title}</h2>
+    </div>
+  );
+};
+
+export default SpeechSynthesis;
