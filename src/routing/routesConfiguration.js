@@ -6,6 +6,7 @@ export default {
   },
   speechMain: {
     path: '/speech',
+    topLevel: true,
     title: 'Speech'
   },
   phraseMatcher: {
@@ -22,18 +23,22 @@ export default {
   },
   pageVisibility: {
     path: '/page-visibility',
+    topLevel: true,
     title: 'Page Visibility'
   },
   networkInformation: {
     path: '/network-information',
+    topLevel: true,
     title: 'Network Information'
   },
   media: {
     path: '/media',
+    topLevel: true,
     title: 'Media'
   },
   dialog: {
     path: '/dialog',
+    topLevel: true,
     title: 'Dialog'
   },
 };

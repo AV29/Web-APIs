@@ -9,15 +9,43 @@ import NetworkInformation from './network-information/NetworkInformation';
 import Media from './media/Media';
 import Dialog from './dialog/Dialog';
 import Speech from './speech/Speech';
+import ExtendedRoute from './common/extended-route/ExtendedRoute';
 import * as appStyles from './App.less';
 import * as styles from '../styles/global.less';
 
 const {speechMain, pageVisibility, networkInformation, media, root, dialog} = routesConfiguration;
 
 class App extends Component {
-
   static propTypes = {
     history: object
+  };
+
+  static getMenuListSize = () => {
+    return Object.keys(routesConfiguration).filter(key => routesConfiguration[key].topLevel).length;
+  };
+
+  constructor(props) {
+    super(props);
+    this.menuListSize = App.getMenuListSize();
+    this.state = {
+      step: 1
+    };
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = ({which}) => {
+    if ((which !== 38 && which !== 40) || this.props.location.pathname !== root.path) {
+      return;
+    }
+    this.state.step < this.menuListSize && which === 40 && this.setState(({step}) => ({step: step + 1}));
+    this.state.step > 1 && which === 38 && this.setState(({step}) => ({step: step - 1}));
   };
 
   redirect = path => {
@@ -32,7 +60,7 @@ class App extends Component {
         </div>
         <div className={appStyles.contentWrapper}>
           <Switch>
-            <Route exact path={root.path} component={ContentList}/>
+            <ExtendedRoute exact path={root.path} step={this.state.step} component={ContentList}/>
             <Route path={speechMain.path} component={Speech}/>
             <Route exact path={pageVisibility.path} component={PageVisibility}/>
             <Route exact path={networkInformation.path} component={NetworkInformation}/>
