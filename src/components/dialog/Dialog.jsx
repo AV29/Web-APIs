@@ -1,5 +1,5 @@
 import React from 'react';
-import routesConfiguration from '../../routing/routesConfiguration'
+import routesConfiguration from '../../routing/routesConfiguration';
 import * as styles from '../../styles/global.less';
 
 const {dialog} = routesConfiguration;

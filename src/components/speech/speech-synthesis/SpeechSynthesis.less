@@ -1,7 +1,7 @@
 .speechSynthesisWrapper {
 
   height: 90%;
-  max-width: 800px;
+  width: 500px;
   margin: 0 auto;
 
   h1, p {
@@ -9,6 +9,16 @@
     font-family: sans-serif;
     text-align: center;
     padding: 20px;
+  }
+
+  .speechControl {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0;
+    input {
+      flex: 1;
+    }
   }
 
   .txt, select, form > div {
@@ -20,15 +30,15 @@
   }
 
   .txt {
-    width: 80%;
+    width: 100%;
   }
 
   select {
-    width: 83%;
+    width: 100%;
   }
 
   form > div {
-    width: 81%;
+    width: 100%;
   }
 
   .txt, form > div {
@@ -36,14 +46,10 @@
     overflow: auto;
   }
 
-  .clearfix {
-    clear: both;
-  }
-
   label {
-    float: left;
     width: 10%;
     line-height: 1.5;
+    font-size: 1.5rem;
   }
 
   .rateValue, .pitchValue {

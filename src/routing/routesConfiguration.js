@@ -41,4 +41,9 @@ export default {
     topLevel: true,
     title: 'Dialog'
   },
+  faceDetection: {
+    path: '/face-detection',
+    topLevel: true,
+    title: 'Face Detection'
+  }
 };

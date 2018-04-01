@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import routesConfiguration from '../../../routing/routesConfiguration'
+import routesConfiguration from '../../../routing/routesConfiguration';
 import * as styles from '../../../styles/global.less';
 import * as ownStyles from './PhraseMatcher.less';
 
@@ -23,9 +23,9 @@ class PhraseMatcher extends Component {
       'she sells seashells on the seashore'
     ];
 
-    const phrasePara = document.querySelector('.phrase');
-    const resultPara = document.querySelector('.result');
-    const diagnosticPara = document.querySelector('.output');
+    const phrasePara = document.querySelector('#phrase');
+    const resultPara = document.querySelector('#result');
+    const diagnosticPara = document.querySelector('#received-messages');
 
     const testBtn = document.querySelector('button');
 
@@ -33,11 +33,9 @@ class PhraseMatcher extends Component {
       return Math.floor(Math.random() * phrases.length);
     }
 
-    testBtn.addEventListener('click', testSpeech);
-
     function testSpeech() {
       testBtn.disabled = true;
-      testBtn.textContent = 'Test in progress';
+      testBtn.textContent = 'In progress';
 
       const phrase = phrases[randomPhrase()];
       phrasePara.textContent = phrase;
@@ -45,7 +43,7 @@ class PhraseMatcher extends Component {
       resultPara.style.background = 'rgba(0,0,0,0.2)';
       diagnosticPara.textContent = '...diagnostic messages';
 
-      const grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase + ';';
+      const grammar = `#JSGF V1.0; grammar phrase; public <phrase> = ${phrase}`;
       const recognition = new SpeechRecognition();
       const speechRecognitionList = new SpeechGrammarList();
       speechRecognitionList.addFromString(grammar, 1);
@@ -58,7 +56,8 @@ class PhraseMatcher extends Component {
 
       recognition.onresult = function (event) {
         const speechResult = event.results[0][0].transcript;
-        diagnosticPara.textContent = 'Speech received: ' + speechResult + '.';
+        const confidence = `${(event.results[0][0].confidence * 100).toFixed(1)}%`;
+        diagnosticPara.innerHTML = `Speech received: <strong>${speechResult}</strong>. Confidence - ${confidence}`;
         if (speechResult === phrase) {
           resultPara.textContent = 'I heard the correct phrase!';
           resultPara.style.background = 'lime';
@@ -66,19 +65,17 @@ class PhraseMatcher extends Component {
           resultPara.textContent = 'That didn\'t sound right.';
           resultPara.style.background = 'red';
         }
-        console.log('SpeechRecognition.onresult');
-        console.log('Confidence: ' + event.results[0][0].confidence);
       };
 
       recognition.onspeechend = function () {
         recognition.stop();
         testBtn.disabled = false;
-        testBtn.textContent = 'Start new test';
+        testBtn.textContent = 'Test';
       };
 
       recognition.onerror = function (event) {
         testBtn.disabled = false;
-        testBtn.textContent = 'Start new test';
+        testBtn.textContent = 'Test';
         diagnosticPara.textContent = 'Error occurred in recognition: ' + event.error;
       };
 
@@ -93,48 +90,48 @@ class PhraseMatcher extends Component {
       };
 
       recognition.onend = function (event) {
-        //Fired when the speech recognition service has disconnected.
+        //Fired when the speech_ recognition service has disconnected.
         console.log('SpeechRecognition.onend');
       };
 
       recognition.onnomatch = function (event) {
-        //Fired when the speech recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.
+        //Fired when the speech_ recognition service returns a final result with no significant recognition. This may involve some degree of recognition, which doesn't meet or exceed the confidence threshold.
         console.log('SpeechRecognition.onnomatch');
       };
 
       recognition.onsoundstart = function (event) {
-        //Fired when any sound � recognisable speech or not � has been detected.
+        //Fired when any sound � recognisable speech_ or not � has been detected.
         console.log('SpeechRecognition.onsoundstart');
       };
 
       recognition.onsoundend = function (event) {
-        //Fired when any sound � recognisable speech or not � has stopped being detected.
+        //Fired when any sound � recognisable speech_ or not � has stopped being detected.
         console.log('SpeechRecognition.onsoundend');
       };
 
       recognition.onspeechstart = function (event) {
-        //Fired when sound that is recognised by the speech recognition service as speech has been detected.
+        //Fired when sound that is recognised by the speech_ recognition service as speech_ has been detected.
         console.log('SpeechRecognition.onspeechstart');
       };
       recognition.onstart = function (event) {
-        //Fired when the speech recognition service has begun listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.
+        //Fired when the speech_ recognition service has begun listening to incoming audio with intent to recognize grammars associated with the current SpeechRecognition.
         console.log('SpeechRecognition.onstart');
       };
     }
+
+    testBtn.addEventListener('click', testSpeech);
+
   }
 
   render() {
     return (
       <div className={`${styles.pageWrapper} ${ownStyles.phraseMatcherWrapper}`}>
         <h2>{phraseMatcher.title}</h2>
-        <p>Press the button then say the phrase to test the recognition.</p>
-
-        <button>Start new test</button>
-
-        <div>
-          <p className={ownStyles.phrase}>Phrase...</p>
-          <p className={ownStyles.result}>Right or wrong?</p>
-          <p className={ownStyles.output}>...diagnostic messages</p>
+        <button>Test</button>
+        <div className={ownStyles.output}>
+          <p id="phrase" className={ownStyles.phrase}>Phrase...</p>
+          <p id="result" className={ownStyles.result}>Right or wrong?</p>
+          <p id="received-messages" className={ownStyles.receivedMessage}>...diagnostic messages</p>
         </div>
       </div>
     );

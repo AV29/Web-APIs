@@ -8,12 +8,13 @@ import PageVisibility from './page-visibility/PageVisibility';
 import NetworkInformation from './network-information/NetworkInformation';
 import Media from './media/Media';
 import Dialog from './dialog/Dialog';
+import FaceDetection from './face-detection/FaceDetection';
 import Speech from './speech/Speech';
 import ExtendedRoute from './common/extended-route/ExtendedRoute';
 import * as appStyles from './App.less';
 import * as styles from '../styles/global.less';
 
-const {speechMain, pageVisibility, networkInformation, media, root, dialog} = routesConfiguration;
+const {speechMain, pageVisibility, networkInformation, media, root, dialog, faceDetection} = routesConfiguration;
 
 class App extends Component {
   static propTypes = {
@@ -28,7 +29,7 @@ class App extends Component {
     super(props);
     this.menuListSize = App.getMenuListSize();
     this.state = {
-      step: 1
+      step: 0
     };
   }
 
@@ -45,7 +46,7 @@ class App extends Component {
       return;
     }
     this.state.step < this.menuListSize && which === 40 && this.setState(({step}) => ({step: step + 1}));
-    this.state.step > 1 && which === 38 && this.setState(({step}) => ({step: step - 1}));
+    this.state.step > 0 && which === 38 && this.setState(({step}) => ({step: step - 1}));
   };
 
   redirect = path => {
@@ -66,6 +67,7 @@ class App extends Component {
             <Route exact path={networkInformation.path} component={NetworkInformation}/>
             <Route exact path={media.path} component={Media}/>
             <Route exact path={dialog.path} component={Dialog}/>
+            <Route exact path={faceDetection.path} component={FaceDetection}/>
           </Switch>
         </div>
       </div>

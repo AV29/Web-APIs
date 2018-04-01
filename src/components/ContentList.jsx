@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {object} from 'prop-types';
-import routesConfiguration from '../routing/routesConfiguration'
+import {object, number} from 'prop-types';
+import routesConfiguration from '../routing/routesConfiguration';
 import * as styles from '../styles/global.less';
 
-const {speechMain, pageVisibility, networkInformation, media, dialog} = routesConfiguration;
+const {speechMain, pageVisibility, networkInformation, media, dialog, faceDetection} = routesConfiguration;
 
 class ContentList extends Component {
 
   static propTypes = {
-    history: object
+    history: object,
+    step: number
   };
 
   redirect = path => {
@@ -19,12 +20,15 @@ class ContentList extends Component {
     const {step} = this.props;
     return (
       <div className={styles.content}>
+        {
+          step > 0 &&
           <h1
             className={styles.sectionTitle}
             onClick={() => this.redirect(speechMain.path)}
           >
             {speechMain.title}
           </h1>
+        }
         {
           step > 1 &&
           <h1
@@ -59,6 +63,15 @@ class ContentList extends Component {
             onClick={() => this.redirect(dialog.path)}
           >
             {dialog.title}
+          </h1>
+        }
+        {
+          step > 5 &&
+          <h1
+            className={styles.sectionTitle}
+            onClick={() => this.redirect(faceDetection.path)}
+          >
+            {faceDetection.title}
           </h1>
         }
       </div>

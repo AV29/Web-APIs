@@ -1,4 +1,3 @@
-
 /*
  Есть два способа показать данные местоположения пользователя: геодезические и общественное.
 
@@ -17,30 +16,30 @@
  Но есть онлайн-сервисы, такие как Bing Maps и Yahoo GeoPlanet помогут вам перевести их в общественные.
  */
 function geoFindMe() {
-    const output = document.getElementById("out");
+  const output = document.getElementById('out');
 
-    if (!navigator.geolocation) {
-        output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
-        return;
-    }
+  if (!navigator.geolocation) {
+    output.innerHTML = '<p>Geolocation is not supported by your browser</p>';
+    return;
+  }
 
-    function success(position) {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
 
-        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+    output.innerHTML = `<p>Latitude is ${latitude}° <br>Longitude is ${longitude}°</p>`;
 
-        const img = new Image();
-        img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
+    const img = new Image();
+    img.src = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=13&size=300x300&sensor=false`;
 
-        output.appendChild(img);
-    }
+    output.appendChild(img);
+  }
 
-    function error() {
-        output.innerHTML = "Unable to retrieve your location";
-    }
+  function error() {
+    output.innerHTML = 'Unable to retrieve your location';
+  }
 
-    output.innerHTML = "<p>Locating…</p>";
+  output.innerHTML = '<p>Locating…</p>';
 
-    navigator.geolocation.getCurrentPosition(success, error);
+  navigator.geolocation.getCurrentPosition(success, error);
 }

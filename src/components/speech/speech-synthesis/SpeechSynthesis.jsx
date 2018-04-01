@@ -71,7 +71,7 @@ class SpeechSynthesis extends Component {
           className={ownStyles.txt}
           onChange={this.handleChange}
         />
-        <div>
+        <div className={ownStyles.speechControl}>
           <label htmlFor="rate">Rate</label>
           <input
             onChange={this.handleChange}
@@ -84,7 +84,7 @@ class SpeechSynthesis extends Component {
           />
           <div className={ownStyles.rateValue}>{this.state.rate}</div>
         </div>
-        <div>
+        <div className={ownStyles.speechControl}>
           <label htmlFor="pitch">Pitch</label>
           <input
             onChange={this.handleChange}
