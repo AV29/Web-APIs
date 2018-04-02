@@ -12,15 +12,24 @@
     transition: all .3s ease-out;
   }
 
+  .trash {
+    width: 200px;
+    height: 200px;
+    background-image: url('trash_opened.png');
+    background-size: cover;
+    &.isOver {
+      background-image: url('trash.png');
+    }
+  }
+
   .dropTarget .draggableItem {
     font-size: 2rem;
     display: inline-block;
     margin: 5px;
-  }
-
-  .isOver {
-    border: 3px dashed lightgrey;
-    background-color: papayawhip;
+    &.isOver {
+      border: 3px dashed lightgrey;
+      background-color: papayawhip;
+    }
   }
 
   .isDragged {

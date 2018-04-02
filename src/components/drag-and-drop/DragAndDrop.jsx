@@ -22,6 +22,10 @@ class DragAndDrop extends Component {
     document.querySelectorAll('.draggableItem').forEach(addListenersForDragging);
     document.querySelectorAll('.dropTarget').forEach(addListenersForDropping);
 
+    document.querySelector('.trash').addEventListener('drop', handleThrowOut);
+    document.querySelector('.trash').addEventListener('dragover', handleDragOver);
+    document.querySelector('.trash').addEventListener('dragleave', handleDragLeave);
+
     function handleDragStart(event) {
       event.dataTransfer.setData("text/plain", event.target.id);
       event.target.classList.add('isDragStarted');
@@ -63,6 +67,10 @@ class DragAndDrop extends Component {
         }
       }
       event.target.classList.remove('isOver');
+    }
+
+    function handleThrowOut(event) {
+      event.target.parentNode.removeChild(event.target);
     }
 
     function handleDragLeave(event) {
@@ -133,6 +141,7 @@ class DragAndDrop extends Component {
         <div id="panel" className="panel">
           <div id="pb">Drag Me</div>
         </div>
+        <div className="trash"/>
       </div>
     );
   }
