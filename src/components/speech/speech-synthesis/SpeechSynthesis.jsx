@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration'
-import classNames from 'classnames';
-import * as styles from '../../../styles/global.less';
-import * as ownStyles from './SpeechSynthesis.less';
+import './SpeechSynthesis.less';
 
 const {speechSynthesis} = routesConfiguration;
 
@@ -63,15 +61,15 @@ class SpeechSynthesis extends Component {
   render() {
     console.log('Render');
     return (
-      <div className={classNames(styles.pageWrapper, ownStyles.speechSynthesisWrapper)}>
+      <div className="pageWrapper speechSynthesisWrapper">
         <h2>{speechSynthesis.title}</h2>
         <input
           type="text"
           name="text"
-          className={ownStyles.txt}
+          className="txt"
           onChange={this.handleChange}
         />
-        <div className={ownStyles.speechControl}>
+        <div className="speechControl">
           <label htmlFor="rate">Rate</label>
           <input
             onChange={this.handleChange}
@@ -82,9 +80,8 @@ class SpeechSynthesis extends Component {
             value={this.state.rate}
             step="0.1"
           />
-          <div className={ownStyles.rateValue}>{this.state.rate}</div>
         </div>
-        <div className={ownStyles.speechControl}>
+        <div className="speechControl">
           <label htmlFor="pitch">Pitch</label>
           <input
             onChange={this.handleChange}
@@ -95,7 +92,6 @@ class SpeechSynthesis extends Component {
             value={this.state.pitch}
             step="0.1"
           />
-          <div className={ownStyles.pitchValue}>{this.state.pitch}</div>
         </div>
         <select
           name="voice"
@@ -108,7 +104,7 @@ class SpeechSynthesis extends Component {
             )
           }
         </select>
-        <div className={ownStyles.controls}>
+        <div className="controls">
           <button onClick={this.speak}>Play</button>
         </div>
       </div>

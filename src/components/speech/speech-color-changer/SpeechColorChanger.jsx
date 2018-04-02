@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration';
-import * as styles from '../../../styles/global.less';
-import * as ownStyles from './SpeechColorChanger.less';
+import './SpeechColorChanger.less';
 
 const {speechColorChanger} = routesConfiguration;
 
@@ -48,18 +47,18 @@ class SpeechColorChanger extends Component {
 
   render() {
     return (
-      <div id="color-changer" className={`${styles.pageWrapper} ${ownStyles.colorChanger}`}>
+      <div id="color-changer" className="pageWrapper colorChanger">
         <h2>{speechColorChanger.title}</h2>
-        <div className={ownStyles.controls}>
+        <div className="controls">
           <button id="start">Start</button>
           <button id="stop">Stop</button>
         </div>
-        <div id="palette" className={ownStyles.palette}>
+        <div id="palette" className="palette">
           {
-            this.colors.map(color => <span key={color} className={ownStyles.color} style={{backgroundColor: color}}>{color}</span>)
+            this.colors.map(color => <span key={color} className="color" style={{backgroundColor: color}}>{color}</span>)
           }
         </div>
-        <div id="output" className={ownStyles.output} style={{backgroundColor: this.state.result.toLowerCase()}}>
+        <div id="output" className="output" style={{backgroundColor: this.state.result.toLowerCase()}}>
           <p>
             <strong>{this.state.result.toUpperCase()}</strong>
           </p>

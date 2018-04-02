@@ -1,14 +1,13 @@
 import React from 'react';
 import routesConfiguration from '../../routing/routesConfiguration'
-import * as styles from '../../styles/global.less';
 
 const {pageVisibility} = routesConfiguration;
 
 const PageVisibility = () => {
   return (
-    <div className={styles.pageWrapper}>
+    <div className="pageWrapper">
       <h3
-        className={styles.pageIdentificator}
+        className="pageIdentificator"
       >
         {pageVisibility.title}
       </h3>

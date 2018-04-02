@@ -1,6 +1,5 @@
 import React from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
-import * as styles from '../../styles/global.less';
 
 const {faceDetection} = routesConfiguration;
 
@@ -83,10 +82,10 @@ class FaceDetection extends React.Component {
       <div
         id="wrapper"
         style={{position: 'relative'}}
-        className={styles.pageWrapper}
+        className="pageWrapper"
       >
         <h3
-          className={styles.pageIdentificator}
+          className="pageIdentificator"
         >
           {faceDetection.title}
         </h3>

@@ -26,10 +26,10 @@ export default {
     topLevel: true,
     title: 'Page Visibility'
   },
-  networkInformation: {
-    path: '/network-information',
+  dragAndDrop: {
+    path: '/dnd',
     topLevel: true,
-    title: 'Network Information'
+    title: 'Drag and Drop'
   },
   media: {
     path: '/media',

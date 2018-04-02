@@ -6,7 +6,6 @@ import SpeechSynthesis from './speech-synthesis/SpeechSynthesis';
 import SpeechColorChanger from './speech-color-changer/SpeechColorChanger';
 import routesConfiguration from '../../routing/routesConfiguration'
 import ContentList from './ContentList';
-import * as styles from '../../styles/global.less';
 
 const {phraseMatcher, speechSynthesis, speechMain, speechColorChanger} = routesConfiguration;
 
@@ -22,10 +21,10 @@ class Speech extends Component {
 
   render() {
     return (
-      <div className={styles.pageWrapper}>
+      <div className="pageWrapper">
         <h3
           onClick={() => this.redirect(speechMain.path)}
-          className={styles.pageIdentificator}
+          className="pageIdentificator"
         >
           {speechMain.title}
         </h3>

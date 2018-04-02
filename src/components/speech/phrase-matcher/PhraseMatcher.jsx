@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration';
-import * as styles from '../../../styles/global.less';
-import * as ownStyles from './PhraseMatcher.less';
+import './PhraseMatcher.less';
 
 const {phraseMatcher} = routesConfiguration;
 
@@ -57,7 +56,7 @@ class PhraseMatcher extends Component {
       recognition.onresult = function (event) {
         const speechResult = event.results[0][0].transcript;
         const confidence = `${(event.results[0][0].confidence * 100).toFixed(1)}%`;
-        diagnosticPara.innerHTML = `Speech received: <strong>${speechResult}</strong>. Confidence - ${confidence}`;
+        diagnosticPara.innerHTML = `Speech received: <strong>${speechResult}</strong>. Match confidence - ${confidence}`;
         if (speechResult === phrase) {
           resultPara.textContent = 'I heard the correct phrase!';
           resultPara.style.background = 'lime';
@@ -125,13 +124,13 @@ class PhraseMatcher extends Component {
 
   render() {
     return (
-      <div className={`${styles.pageWrapper} ${ownStyles.phraseMatcherWrapper}`}>
+      <div className="pageWrapper phraseMatcherWrapper">
         <h2>{phraseMatcher.title}</h2>
         <button>Test</button>
-        <div className={ownStyles.output}>
-          <p id="phrase" className={ownStyles.phrase}>Phrase...</p>
-          <p id="result" className={ownStyles.result}>Right or wrong?</p>
-          <p id="received-messages" className={ownStyles.receivedMessage}>...diagnostic messages</p>
+        <div className="output">
+          <p id="phrase" className="phrase">Phrase...</p>
+          <p id="result" className="result">Right or wrong?</p>
+          <p id="received-messages" className="receivedMessage">...diagnostic messages</p>
         </div>
       </div>
     );

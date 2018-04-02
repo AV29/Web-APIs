@@ -1,20 +1,18 @@
 import React, {Component} from 'react';
 import {object} from 'prop-types';
-import classNames from 'classnames';
 import {Route, Switch} from 'react-router-dom';
 import routesConfiguration from '../routing/routesConfiguration'
 import ContentList from './ContentList';
 import PageVisibility from './page-visibility/PageVisibility';
-import NetworkInformation from './network-information/NetworkInformation';
+import DragAndDrop from './drag-and-drop/DragAndDrop';
 import Media from './media/Media';
 import Dialog from './dialog/Dialog';
 import FaceDetection from './face-detection/FaceDetection';
 import Speech from './speech/Speech';
 import ExtendedRoute from './common/extended-route/ExtendedRoute';
-import * as appStyles from './App.less';
-import * as styles from '../styles/global.less';
+import './App.less';
 
-const {speechMain, pageVisibility, networkInformation, media, root, dialog, faceDetection} = routesConfiguration;
+const {speechMain, pageVisibility, dragAndDrop, media, root, dialog, faceDetection} = routesConfiguration;
 
 class App extends Component {
   static propTypes = {
@@ -55,16 +53,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className={appStyles.webApiDemoContainer}>
-        <div className={classNames(styles.header)}>
+      <div className="webApiDemoContainer">
+        <div className="header">
           <h3 onClick={() => this.redirect(root.path)}>{root.title}</h3>
         </div>
-        <div className={appStyles.contentWrapper}>
+        <div className="contentWrapper">
           <Switch>
             <ExtendedRoute exact path={root.path} step={this.state.step} component={ContentList}/>
             <Route path={speechMain.path} component={Speech}/>
             <Route exact path={pageVisibility.path} component={PageVisibility}/>
-            <Route exact path={networkInformation.path} component={NetworkInformation}/>
+            <Route exact path={dragAndDrop.path} component={DragAndDrop}/>
             <Route exact path={media.path} component={Media}/>
             <Route exact path={dialog.path} component={Dialog}/>
             <Route exact path={faceDetection.path} component={FaceDetection}/>

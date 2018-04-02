@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {object, number} from 'prop-types';
 import routesConfiguration from '../routing/routesConfiguration';
-import * as styles from '../styles/global.less';
 
-const {speechMain, pageVisibility, networkInformation, media, dialog, faceDetection} = routesConfiguration;
+const {speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection} = routesConfiguration;
 
 class ContentList extends Component {
 
@@ -19,11 +18,11 @@ class ContentList extends Component {
   render() {
     const {step} = this.props;
     return (
-      <div className={styles.content}>
+      <div className="content">
         {
           step > 0 &&
           <h1
-            className={styles.sectionTitle}
+            className="sectionTitle"
             onClick={() => this.redirect(speechMain.path)}
           >
             {speechMain.title}
@@ -32,7 +31,7 @@ class ContentList extends Component {
         {
           step > 1 &&
           <h1
-            className={styles.sectionTitle}
+            className="sectionTitle"
             onClick={() => this.redirect(pageVisibility.path)}
           >
             {pageVisibility.title}
@@ -41,16 +40,16 @@ class ContentList extends Component {
         {
           step > 2 &&
           <h1
-            className={styles.sectionTitle}
-            onClick={() => this.redirect(networkInformation.path)}
+            className="sectionTitle"
+            onClick={() => this.redirect(dragAndDrop.path)}
           >
-            {networkInformation.title}
+            {dragAndDrop.title}
           </h1>
         }
         {
           step > 3 &&
           <h1
-            className={styles.sectionTitle}
+            className="sectionTitle"
             onClick={() => this.redirect(media.path)}
           >
             {media.title}
@@ -59,7 +58,7 @@ class ContentList extends Component {
         {
           step > 4 &&
           <h1
-            className={styles.sectionTitle}
+            className="sectionTitle"
             onClick={() => this.redirect(dialog.path)}
           >
             {dialog.title}
@@ -68,7 +67,7 @@ class ContentList extends Component {
         {
           step > 5 &&
           <h1
-            className={styles.sectionTitle}
+            className="sectionTitle"
             onClick={() => this.redirect(faceDetection.path)}
           >
             {faceDetection.title}

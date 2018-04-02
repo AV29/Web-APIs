@@ -1,14 +1,13 @@
 import React from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
-import * as styles from '../../styles/global.less';
 
 const {dialog} = routesConfiguration;
 
 const Dialog = () => {
   return (
-    <div className={styles.pageWrapper}>
+    <div className="pageWrapper">
       <h3
-        className={styles.pageIdentificator}
+        className="pageIdentificator"
       >
         {dialog.title}
       </h3>
