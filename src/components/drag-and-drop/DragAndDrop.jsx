@@ -21,20 +21,18 @@ class DragAndDrop extends Component {
 
     document.querySelectorAll('.draggableItem').forEach(addListenersForDragging);
     document.querySelectorAll('.dropTarget').forEach(addListenersForDropping);
-
-    document.querySelector('.trash').addEventListener('drop', handleThrowOut);
-    document.querySelector('.trash').addEventListener('dragover', handleDragOver);
-    document.querySelector('.trash').addEventListener('dragleave', handleDragLeave);
+    const trash = document.getElementById('trash');
+    addListenersForDropping(trash);
 
     function handleDragStart(event) {
-      event.dataTransfer.setData("text/plain", event.target.id);
+      event.dataTransfer.setData('text/plain', event.target.id);
       event.target.classList.add('isDragStarted');
     }
 
     function handleDragOver(event) {
       event.preventDefault(); // preventing touch and pointer events
       event.target.classList.add('isOver');
-      event.dataTransfer.dropEffect = "move";
+      event.dataTransfer.dropEffect = 'move';
     }
 
     function handleDrop(event) {
@@ -43,13 +41,18 @@ class DragAndDrop extends Component {
       for (let i = 0; i < dataItems.length; i += 1) {
         if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/plain')) {
           dataItems[i].getAsString(function (s) {
-            console.log("... Drop: Text");
-            event.target.appendChild(document.getElementById(s));
+            console.log('... Drop: Text');
+            const draggableItem = document.getElementById(s);
+            if(event.target.id === 'trash') {
+              draggableItem.parentElement.removeChild(draggableItem);
+            } else {
+              event.target.appendChild(document.getElementById(s));
+            }
           });
         } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/html')) {
-          console.log("... Drop: HTML");
+          console.log('... Drop: HTML');
         } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/uri-list')) {
-          console.log("... Drop: URI");
+          console.log('... Drop: URI');
         } else if (dataItems[i].kind === 'file' && dataItems[i].type.match('^image/')) {
           const f = dataItems[i].getAsFile();
           const reader = new FileReader();
@@ -63,14 +66,10 @@ class DragAndDrop extends Component {
           };
 
           reader.readAsDataURL(f);
-          console.log("... Drop: File ");
+          console.log('... Drop: File ');
         }
       }
       event.target.classList.remove('isOver');
-    }
-
-    function handleThrowOut(event) {
-      event.target.parentNode.removeChild(event.target);
     }
 
     function handleDragLeave(event) {
@@ -141,7 +140,7 @@ class DragAndDrop extends Component {
         <div id="panel" className="panel">
           <div id="pb">Drag Me</div>
         </div>
-        <div className="trash"/>
+        <div id="trash" className="trash"/>
       </div>
     );
   }

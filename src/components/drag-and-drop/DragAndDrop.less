@@ -15,16 +15,15 @@
   .trash {
     width: 200px;
     height: 200px;
-    background-image: url('trash_opened.png');
+    background-image: url('trash-closed.png');
     background-size: cover;
     &.isOver {
-      background-image: url('trash.png');
+      background-image: url('trash-opened.png');
     }
   }
 
-  .dropTarget .draggableItem {
+  .dropTarget, .draggableItem {
     font-size: 2rem;
-    display: inline-block;
     margin: 5px;
     &.isOver {
       border: 3px dashed lightgrey;
