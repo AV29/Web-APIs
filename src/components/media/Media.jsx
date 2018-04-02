@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import routesConfiguration from '../../routing/routesConfiguration'
+import routesConfiguration from '../../routing/routesConfiguration';
 import './Media.less';
 
 const {media} = routesConfiguration;
