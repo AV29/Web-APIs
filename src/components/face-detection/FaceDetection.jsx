@@ -10,7 +10,7 @@ class FaceDetection extends React.Component {
 
     this.videoTrack = null;
     this.state = {
-      videoStarted: false
+      showLandmarks: false
     };
   }
 
@@ -20,6 +20,10 @@ class FaceDetection extends React.Component {
 
   _faceBox = faceBox => {
     this.faceBox = faceBox;
+  };
+
+  _trash = trash => {
+    this.trash = trash;
   };
 
   componentWillUnmount() {
@@ -33,13 +37,35 @@ class FaceDetection extends React.Component {
     }
     document.querySelectorAll('.dropTarget').forEach(this.addListenersForDropping);
     this.faceDetector = new window.FaceDetector();
-    this.startVideo();
+    const trash = document.getElementById('trash');
+    this.addListenersForDropping(this.trash);
+    //this.startVideo();
   }
+
+  addListenersForDragging = element => {
+    element.addEventListener('dragstart', this.handleDragStart);
+    element.addEventListener('drag', this.handleDrag);
+    element.addEventListener('dragend', this.handleDragEnd);
+  };
 
   addListenersForDropping = element => {
     element.addEventListener('drop', this.handleDrop);
     element.addEventListener('dragover', this.handleDragOver);
     element.addEventListener('dragleave', this.handleDragLeave);
+  };
+
+  handleDragStart = event => {
+    event.dataTransfer.setData('text/plain', event.target.id);
+    event.target.classList.add('isDragStarted');
+  };
+
+  handleDrag = event => {
+    event.target.classList.add('isDragged');
+  };
+
+  handleDragEnd = event => {
+    event.target.classList.remove('isDragged');
+    event.target.classList.remove('isDragStarted');
   };
 
   handleDragOver = event => {
@@ -52,16 +78,17 @@ class FaceDetection extends React.Component {
     event.target.classList.remove('isOver');
   };
 
-  handleDrop = (event, addListenersAfterDrop) => {
+  handleDrop = event => {
     event.preventDefault();
     const dataItems = event.dataTransfer.items; //DataTransferItemList object
     for (let i = 0; i < dataItems.length; i += 1) {
       if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/plain')) {
-        dataItems[i].getAsString(function (s) {
+        dataItems[i].getAsString((s) => {
           console.log('... Drop: Text');
           const draggableItem = document.getElementById(s);
-          if(event.target.id === 'trash') {
+          if (event.target === this.trash) {
             draggableItem.parentElement.removeChild(draggableItem);
+            this.setState({showLandmarks: false});
           } else {
             document.getElementById(s) && event.target.appendChild(document.getElementById(s));
           }
@@ -78,8 +105,9 @@ class FaceDetection extends React.Component {
           image.src = result;
           image.draggable = true;
           image.id = `fileImg-${Date.now()}`;
-          //addListenersForDragging(image);
+          this.addListenersForDragging(image);
           event.target.appendChild(image);
+          setTimeout(() => this.detectFaces(image), 0);
         };
 
         reader.readAsDataURL(f);
@@ -92,7 +120,7 @@ class FaceDetection extends React.Component {
   startVideo = () => {
     const constrains = {audio: false, video: {width: 1280, height: 720}};
     navigator.mediaDevices.getUserMedia(constrains).then(this.applyStream);
-    this.setState({videoStarted: true});
+    //this.setState({showLandmarks: true});
   };
 
   applyStream = stream => {
@@ -104,17 +132,21 @@ class FaceDetection extends React.Component {
     this.video.srcObject = stream;
     setTimeout(() => {
       this.inverval = setInterval(() => {
-        this.faceDetector.detect(this.video)
-          .then(this.handleDetectFaces)
-          .catch(err => {
-            console.log('Handled Error', err);
-            this.stopVideo();
-          });
+        this.detectFaces(this.video);
       }, 150);
     }, 500);
   };
 
-  handleDetectFaces = faces =>
+  detectFaces = target => {
+    this.faceDetector.detect(target)
+      .then(this.handleDetectFaces)
+      .catch(err => {
+        console.log('Handled Error', err);
+        this.stopVideo();
+      });
+  };
+
+  handleDetectFaces = faces => {
     faces.forEach(face => {
       const {width, height, top, left} = face.boundingBox;
 
@@ -146,6 +178,8 @@ class FaceDetection extends React.Component {
                 `;
       });
     });
+    !this.state.showLandmarks && this.setState({showLandmarks: true});
+  };
 
   stopVideo = () => {
     if (this.videoTrack) {
@@ -154,7 +188,7 @@ class FaceDetection extends React.Component {
     this.videoTrack = null;
     this.video.srcObject = null;
     clearInterval(this.inverval);
-    this.setState({videoStarted: false});
+    this.setState({showLandmarks: false});
   };
 
   render() {
@@ -175,17 +209,16 @@ class FaceDetection extends React.Component {
           ref={this._videoRef}
           autoPlay
         />
-        <div ref={this._faceBox}>
+        <div ref={this._faceBox} style={{display: this.state.showLandmarks ? 'block' : 'none'}}>
           <div id="eye-0"/>
           <div id="eye-1"/>
         </div>
         <div className="controls">
-          {this.state.videoStarted && <button onClick={this.stopVideo}>Stop Video</button>}
-          {!this.state.videoStarted && <button onClick={this.startVideo}>Start Video</button>}
+          {this.state.showLandmarks && <button onClick={this.stopVideo}>Stop Video</button>}
+          {!this.state.showLandmarks && <button onClick={this.startVideo}>Start Video</button>}
         </div>
-        <div className="imageDetection dropTarget">
-
-        </div>
+        <div ref={this._trash} className="trash"/>
+        <div className="imageDetection dropTarget"/>
       </div>
     );
   }

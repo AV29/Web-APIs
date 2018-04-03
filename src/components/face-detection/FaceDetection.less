@@ -5,8 +5,17 @@
     width: 100%;
     text-align: center;
     padding: 50px;
-    //&.isOver {
-    //  background-color: papayawhip;
-    //}
+  }
+  .trash {
+    width: 200px;
+    height: 200px;
+    background-image: url('../drag-and-drop/trash-closed.png');
+    background-size: cover;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    &.isOver {
+      background-image: url('../drag-and-drop/trash-opened.png');
+    }
   }
 }
