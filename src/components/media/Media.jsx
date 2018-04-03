@@ -42,7 +42,7 @@ class Media extends Component {
 
     function enumerateDevices() {
       navigator.mediaDevices.ondevicechange = handleDeviceChange;
-      navigator.mediaDevices.enumerateDevices().then(displayDevices);
+      handleDeviceChange();
     }
 
     function handleDeviceChange(event) {
@@ -50,6 +50,7 @@ class Media extends Component {
     }
 
     function startStream() {
+      videoElement.style.display = 'block';
       navigator.mediaDevices.getUserMedia(constraints)
         .then(applyStream)
         .catch(({name, message}) => log(`${name}: ${message}`));
@@ -62,6 +63,7 @@ class Media extends Component {
 
       videoTrack = null;
       videoElement.srcObject = null;
+      videoElement.style.display = 'none';
     }
 
     function applyStream(stream) {
@@ -122,19 +124,19 @@ class Media extends Component {
       <div className="pageWrapper mediaWrapper">
         <h3 className="pageIdentificator">{media.title}</h3>
         <h2>{media.title}</h2>
+        <div className="controls">
+          <button id="start">Start Stream</button>
+          <button id="enumerate">Get Devices</button>
+        </div>
         <div className="mediaWrapper">
           <div className="streamWrapper">
-            <div className="controls">
-              <button id="start">Start Stream</button>
-              <button id="enumerate">Get Devices</button>
-            </div>
-            <video id="video" width="480" height="360" autoPlay/>
-            <div className="controls">
-              <button id="stopAudio">Stop Video</button>
-              <button id="takePicture">Take photo</button>
-            </div>
+            <video id="video" width="480" height="360" autoPlay style={{display: 'none'}}/>
           </div>
           <canvas id="canvas" style={{display: 'none'}}/>
+        </div>
+        <div className="controls">
+          <button id="stopAudio">Stop Video</button>
+          <button id="takePicture">Take photo</button>
         </div>
         <div className="devicesInfo">
           <div className="deviceList">
