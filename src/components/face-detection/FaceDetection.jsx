@@ -1,5 +1,6 @@
 import React from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
+import './FaceDetection.less';
 
 const {faceDetection} = routesConfiguration;
 
@@ -30,9 +31,63 @@ class FaceDetection extends React.Component {
       alert('No face detection!');
       return;
     }
+    document.querySelectorAll('.dropTarget').forEach(this.addListenersForDropping);
     this.faceDetector = new window.FaceDetector();
     this.startVideo();
   }
+
+  addListenersForDropping = element => {
+    element.addEventListener('drop', this.handleDrop);
+    element.addEventListener('dragover', this.handleDragOver);
+    element.addEventListener('dragleave', this.handleDragLeave);
+  };
+
+  handleDragOver = event => {
+    event.preventDefault(); // preventing touch and pointer events
+    event.target.classList.add('isOver');
+    event.dataTransfer.dropEffect = 'move';
+  };
+
+  handleDragLeave = event => {
+    event.target.classList.remove('isOver');
+  };
+
+  handleDrop = (event, addListenersAfterDrop) => {
+    event.preventDefault();
+    const dataItems = event.dataTransfer.items; //DataTransferItemList object
+    for (let i = 0; i < dataItems.length; i += 1) {
+      if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/plain')) {
+        dataItems[i].getAsString(function (s) {
+          console.log('... Drop: Text');
+          const draggableItem = document.getElementById(s);
+          if(event.target.id === 'trash') {
+            draggableItem.parentElement.removeChild(draggableItem);
+          } else {
+            document.getElementById(s) && event.target.appendChild(document.getElementById(s));
+          }
+        });
+      } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/html')) {
+        console.log('... Drop: HTML');
+      } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/uri-list')) {
+        console.log('... Drop: URI');
+      } else if (dataItems[i].kind === 'file' && dataItems[i].type.match('^image/')) {
+        const f = dataItems[i].getAsFile();
+        const reader = new FileReader();
+        reader.onload = ({target: {result}}) => {
+          const image = document.createElement('img');
+          image.src = result;
+          image.draggable = true;
+          image.id = `fileImg-${Date.now()}`;
+          //addListenersForDragging(image);
+          event.target.appendChild(image);
+        };
+
+        reader.readAsDataURL(f);
+        console.log('... Drop: File ');
+      }
+    }
+    event.target.classList.remove('isOver');
+  };
 
   startVideo = () => {
     const constrains = {audio: false, video: {width: 1280, height: 720}};
@@ -107,7 +162,7 @@ class FaceDetection extends React.Component {
       <div
         id="wrapper"
         style={{position: 'relative'}}
-        className="pageWrapper"
+        className="pageWrapper faceDetection"
       >
         <h3
           className="pageIdentificator"
@@ -127,6 +182,9 @@ class FaceDetection extends React.Component {
         <div className="controls">
           {this.state.videoStarted && <button onClick={this.stopVideo}>Stop Video</button>}
           {!this.state.videoStarted && <button onClick={this.startVideo}>Start Video</button>}
+        </div>
+        <div className="imageDetection dropTarget">
+
         </div>
       </div>
     );

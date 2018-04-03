@@ -46,7 +46,7 @@ class DragAndDrop extends Component {
             if(event.target.id === 'trash') {
               draggableItem.parentElement.removeChild(draggableItem);
             } else {
-              event.target.appendChild(document.getElementById(s));
+              document.getElementById(s) && event.target.appendChild(document.getElementById(s));
             }
           });
         } else if (dataItems[i].kind === 'string' && dataItems[i].type.match('^text/html')) {
