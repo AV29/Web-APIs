@@ -34,7 +34,11 @@ class Dialog extends Component {
   }
 
   handleCancel() {
-    this.dialog.close('Browser not chosen');
+    if(this.state.chosenCrypto) {
+      this.dialog.close(this.state.chosenCrypto);
+    } else {
+      this.dialog.close('Browser not chosen');
+    }
   }
 
   handleSelect(event) {
@@ -61,30 +65,40 @@ class Dialog extends Component {
             className="dialogForm"
           >
             <div className="formBody">
-              <section>
-                {
-                  this.cryptos.map((crypto, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="dialogInput"
-                      >
-                        <input
-                          id={crypto}
-                          name={crypto}
-                          type="radio"
-                          checked={this.state.currentCrypto === crypto}
-                          onChange={this.handleSelect}
-                        />
-                        <label htmlFor={crypto}>{crypto}</label>
-                      </div>
-                    );
-                  })
-                }
-              </section>
-              <section>
+              <div className="controls">
+                <div className="innerWrapper">
+                  {
+                    this.cryptos.map((crypto, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="dialogInput checkboxInput toggler"
+                        >
+                          <input
+                            id={crypto}
+                            type="radio"
+                            name={crypto}
+                            className="toggler"
+                            checked={this.state.currentCrypto === crypto}
+                            value={this.state.currentCrypto === crypto}
+                            onChange={this.handleSelect}
+                          />
+                          <label
+                            htmlFor={crypto}
+                            className="toggler"
+                          >
+                            <span className="toggler"/>
+                            <span className="labelText">{crypto}</span>
+                          </label>
+                        </div>
+                      );
+                    })
+                  }
+                </div>
+              </div>
+              <h3>
                 This is an extremely important decision in your life. Choose now and never regret!!!
-              </section>
+              </h3>
             </div>
             <div className="submitSection">
               <button
