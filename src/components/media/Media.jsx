@@ -92,7 +92,7 @@ class Media extends Component {
         const elem = document.createElement('li');
         const [kind, type, direction] = device.kind.match(/(\w+)(input|output)/i);
 
-        elem.innerHTML = `<strong>${device.label}</strong>(${direction})`;
+        elem.innerHTML = `<strong>${device.label}</strong> (${direction})`;
         if (type === 'audio') {
           audioList.appendChild(elem);
         } else if (type === 'video') {

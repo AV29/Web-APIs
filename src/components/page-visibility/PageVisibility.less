@@ -1,4 +1,23 @@
 .pageVisibility {
   margin: auto;
   text-align: center;
+  .stateContainer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 10px;
+    top: 140px;
+  }
+  .state {
+    font-size: 2rem;
+    &:not(:nth-last-of-type(1)), &:not(:nth-last-of-type(2)) {
+      text-decoration: line-through;
+    }
+    &:nth-last-of-type(1) {
+      color: lightgreen;
+    }
+    &:nth-last-of-type(2) {
+      color: skyblue;
+    }
+  }
 }
