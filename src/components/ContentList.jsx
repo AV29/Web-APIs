@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {object, number} from 'prop-types';
+import classNames from 'classnames';
 import routesConfiguration from '../routing/routesConfiguration';
 
 const {speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection, networkInfo} = routesConfiguration;
@@ -22,7 +23,7 @@ class ContentList extends Component {
         {
           step > dragAndDrop.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${dragAndDrop.step}`])}
             onClick={() => this.redirect(dragAndDrop.path)}
           >
             {dragAndDrop.title}
@@ -31,7 +32,7 @@ class ContentList extends Component {
         {
           step > speechMain.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${speechMain.step}`])}
             onClick={() => this.redirect(speechMain.path)}
           >
             {speechMain.title}
@@ -40,7 +41,7 @@ class ContentList extends Component {
         {
           step > dialog.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${dialog.step}`])}
             onClick={() => this.redirect(dialog.path)}
           >
             {dialog.title}
@@ -49,7 +50,7 @@ class ContentList extends Component {
         {
           step > pageVisibility.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${pageVisibility.step}`])}
             onClick={() => this.redirect(pageVisibility.path)}
           >
             {pageVisibility.title}
@@ -59,7 +60,7 @@ class ContentList extends Component {
         {
           step > media.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${media.step}`])}
             onClick={() => this.redirect(media.path)}
           >
             {media.title}
@@ -69,7 +70,7 @@ class ContentList extends Component {
         {
           step > networkInfo.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${networkInfo.step}`])}
             onClick={() => this.redirect(networkInfo.path)}
           >
             {networkInfo.title}
@@ -78,7 +79,7 @@ class ContentList extends Component {
         {
           step > faceDetection.step &&
           <h1
-            className="sectionTitle"
+            className={classNames(['sectionTitle', `sectionTitle-${faceDetection.step}`])}
             onClick={() => this.redirect(faceDetection.path)}
           >
             {faceDetection.title}

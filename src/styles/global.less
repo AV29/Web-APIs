@@ -1,5 +1,14 @@
 @import '../styles/variables';
 
+.generate-section-titles(10);
+
+.generate-section-titles(@count, @i: 0) when (@i =< @count) {
+  .sectionTitle-@{i} {
+    color: spin(@app-section-title-base-color, (@i + 1) * 20);
+  }
+  .generate-section-titles(@count, (@i + 1));
+}
+
 button {
   border-radius: 5px;
   outline: 0;
@@ -17,7 +26,6 @@ button {
 .header, .sectionTitle {
   transition: @transition;
   cursor: pointer;
-  color: lighten(@app-header-color, 20%);
 }
 .header {
   width: 100%;
