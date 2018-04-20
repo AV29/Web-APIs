@@ -37,9 +37,7 @@ class FaceDetection extends React.Component {
     }
     document.querySelectorAll('.dropTarget').forEach(this.addListenersForDropping);
     this.faceDetector = new window.FaceDetector();
-    const trash = document.getElementById('trash');
     this.addListenersForDropping(this.trash);
-    //this.startVideo();
   }
 
   addListenersForDragging = element => {
@@ -120,7 +118,6 @@ class FaceDetection extends React.Component {
   startVideo = () => {
     const constrains = {audio: false, video: {width: 1280, height: 720}};
     navigator.mediaDevices.getUserMedia(constrains).then(this.applyStream);
-    //this.setState({showLandmarks: true});
   };
 
   applyStream = stream => {
