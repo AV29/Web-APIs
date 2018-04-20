@@ -41,6 +41,11 @@ export default {
     topLevel: true,
     title: 'Dialog'
   },
+  networkInfo: {
+    path: '/network-information',
+    topLevel: true,
+    title: 'Network Information'
+  },
   faceDetection: {
     path: '/face-detection',
     topLevel: true,

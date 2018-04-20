@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {object, number} from 'prop-types';
 import routesConfiguration from '../routing/routesConfiguration';
 
-const {speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection} = routesConfiguration;
+const {speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection, networkInfo} = routesConfiguration;
 
 class ContentList extends Component {
 
@@ -23,40 +23,22 @@ class ContentList extends Component {
           step > 0 &&
           <h1
             className="sectionTitle"
-            onClick={() => this.redirect(speechMain.path)}
-          >
-            {speechMain.title}
-          </h1>
-        }
-        {
-          step > 1 &&
-          <h1
-            className="sectionTitle"
-            onClick={() => this.redirect(pageVisibility.path)}
-          >
-            {pageVisibility.title}
-          </h1>
-        }
-        {
-          step > 2 &&
-          <h1
-            className="sectionTitle"
             onClick={() => this.redirect(dragAndDrop.path)}
           >
             {dragAndDrop.title}
           </h1>
         }
         {
-          step > 3 &&
+          step > 1 &&
           <h1
             className="sectionTitle"
-            onClick={() => this.redirect(media.path)}
+            onClick={() => this.redirect(speechMain.path)}
           >
-            {media.title}
+            {speechMain.title}
           </h1>
         }
         {
-          step > 4 &&
+          step > 2 &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(dialog.path)}
@@ -65,7 +47,36 @@ class ContentList extends Component {
           </h1>
         }
         {
+          step > 3 &&
+          <h1
+            className="sectionTitle"
+            onClick={() => this.redirect(pageVisibility.path)}
+          >
+            {pageVisibility.title}
+          </h1>
+        }
+
+        {
+          step > 4 &&
+          <h1
+            className="sectionTitle"
+            onClick={() => this.redirect(media.path)}
+          >
+            {media.title}
+          </h1>
+        }
+
+        {
           step > 5 &&
+          <h1
+            className="sectionTitle"
+            onClick={() => this.redirect(networkInfo.path)}
+          >
+            {networkInfo.title}
+          </h1>
+        }
+        {
+          step > 6 &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(faceDetection.path)}

@@ -75,6 +75,10 @@ export default {
         loader: 'url-loader?limit=10000&mimetype=image/png'
       },
       {
+        test: /\.mp4$/,
+        loader: 'file'
+      },
+      {
         test: /\.svg$/,
         use: [
           {
