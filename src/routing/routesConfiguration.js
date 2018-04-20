@@ -6,8 +6,8 @@ export default {
   },
   speechMain: {
     path: '/speech',
-    topLevel: true,
-    title: 'Speech'
+    title: 'Speech',
+    step: 1
   },
   phraseMatcher: {
     path: '/speech/phrase-matcher',
@@ -23,32 +23,32 @@ export default {
   },
   pageVisibility: {
     path: '/page-visibility',
-    topLevel: true,
-    title: 'Page Visibility'
+    title: 'Page Visibility',
+    step: 3
   },
   dragAndDrop: {
     path: '/dnd',
-    topLevel: true,
-    title: 'Drag and Drop'
+    title: 'Drag and Drop',
+    step: 0
   },
   media: {
     path: '/media',
-    topLevel: true,
-    title: 'Media'
+    title: 'Media',
+    step: 4
   },
   dialog: {
     path: '/dialog',
-    topLevel: true,
-    title: 'Dialog'
+    title: 'Dialog',
+    step: 2
   },
   networkInfo: {
     path: '/network-information',
-    topLevel: true,
-    title: 'Network Information'
+    title: 'Network Information',
+    step: 5
   },
   faceDetection: {
     path: '/face-detection',
-    topLevel: true,
-    title: 'Face Detection'
+    title: 'Face Detection',
+    step: 6
   }
 };

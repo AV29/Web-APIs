@@ -20,7 +20,7 @@ class ContentList extends Component {
     return (
       <div className="content">
         {
-          step > 0 &&
+          step > dragAndDrop.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(dragAndDrop.path)}
@@ -29,7 +29,7 @@ class ContentList extends Component {
           </h1>
         }
         {
-          step > 1 &&
+          step > speechMain.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(speechMain.path)}
@@ -38,7 +38,7 @@ class ContentList extends Component {
           </h1>
         }
         {
-          step > 2 &&
+          step > dialog.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(dialog.path)}
@@ -47,7 +47,7 @@ class ContentList extends Component {
           </h1>
         }
         {
-          step > 3 &&
+          step > pageVisibility.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(pageVisibility.path)}
@@ -57,7 +57,7 @@ class ContentList extends Component {
         }
 
         {
-          step > 4 &&
+          step > media.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(media.path)}
@@ -67,7 +67,7 @@ class ContentList extends Component {
         }
 
         {
-          step > 5 &&
+          step > networkInfo.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(networkInfo.path)}
@@ -76,7 +76,7 @@ class ContentList extends Component {
           </h1>
         }
         {
-          step > 6 &&
+          step > faceDetection.step &&
           <h1
             className="sectionTitle"
             onClick={() => this.redirect(faceDetection.path)}

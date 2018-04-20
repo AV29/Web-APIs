@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {object} from 'prop-types';
 import {Route, Switch} from 'react-router-dom';
-import routesConfiguration from '../routing/routesConfiguration'
+import routesConfiguration from '../routing/routesConfiguration';
 import ContentList from './ContentList';
 import PageVisibility from './page-visibility/PageVisibility';
 import DragAndDrop from './drag-and-drop/DragAndDrop';
@@ -21,7 +21,7 @@ class App extends Component {
   };
 
   static getMenuListSize = () => {
-    return Object.keys(routesConfiguration).filter(key => routesConfiguration[key].topLevel).length;
+    return Object.keys(routesConfiguration).filter(key => routesConfiguration[key].step !== undefined).length;
   };
 
   constructor(props) {
@@ -56,7 +56,12 @@ class App extends Component {
     return (
       <div className="webApiDemoContainer">
         <div className="header">
-          <h3 onClick={() => this.redirect(root.path)}>{root.title}</h3>
+          <h3
+            className="app-title"
+            onClick={() => this.redirect(root.path)}
+          >
+            {root.title}
+          </h3>
         </div>
         <div className="contentWrapper">
           <Switch>

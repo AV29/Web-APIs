@@ -17,12 +17,16 @@ button {
 .header, .sectionTitle {
   transition: @transition;
   cursor: pointer;
+  color: lighten(@app-header-color, 20%);
 }
 .header {
   width: 100%;
   text-align: center;
   padding: 20px 0;
-  background-color: papayawhip;
+  background-color: @app-color;
+  .app-title {
+    color: @app-header-color;
+  }
   &:hover {
     color: #288dc8;
   }
