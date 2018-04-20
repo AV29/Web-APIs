@@ -4,18 +4,25 @@
     flex: 1;
     width: 100%;
     text-align: center;
-    padding: 50px;
+  }
+  .media-container {
+    position: relative;
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+    align-items: center;
   }
   .trash {
     width: 200px;
     height: 200px;
-    background-image: url('../drag-and-drop/trash-closed.png');
+    background-image: url('../../assets/trash-closed.png');
     background-size: cover;
     right: 0;
     bottom: 0;
     position: absolute;
     &.isOver {
-      background-image: url('../drag-and-drop/trash-opened.png');
+      background-image: url('../../assets/trash-opened.png');
     }
   }
 }

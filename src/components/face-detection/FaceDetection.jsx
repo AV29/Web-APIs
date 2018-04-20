@@ -10,7 +10,9 @@ class FaceDetection extends React.Component {
 
     this.videoTrack = null;
     this.state = {
-      showLandmarks: false
+      showLandmarks: false,
+      faceAppeared: null,
+      videoPlaying: false
     };
   }
 
@@ -86,7 +88,7 @@ class FaceDetection extends React.Component {
           const draggableItem = document.getElementById(s);
           if (event.target === this.trash) {
             draggableItem.parentElement.removeChild(draggableItem);
-            this.setState({showLandmarks: false});
+            this.setState({showLandmarks: false, faceAppeared: false});
           } else {
             document.getElementById(s) && event.target.appendChild(document.getElementById(s));
           }
@@ -105,7 +107,7 @@ class FaceDetection extends React.Component {
           image.id = `fileImg-${Date.now()}`;
           this.addListenersForDragging(image);
           event.target.appendChild(image);
-          setTimeout(() => this.detectFaces(image), 0);
+          this.setState({faceAppeared: image});
         };
 
         reader.readAsDataURL(f);
@@ -117,6 +119,7 @@ class FaceDetection extends React.Component {
 
   startVideo = () => {
     const constrains = {audio: false, video: {width: 1280, height: 720}};
+    this.setState({videoPlaying: true});
     navigator.mediaDevices.getUserMedia(constrains).then(this.applyStream);
   };
 
@@ -163,16 +166,15 @@ class FaceDetection extends React.Component {
 
         const {x, y} = landmark.location;
         const div = document.getElementById(`eye-${index}`);
-        div.style.cssText = `
-                  z-index: 2;
-                  width: 35%;
-                  height: 35%;
-                  position: absolute;
-                  background-size: cover;
-                  top: ${y - top}px;
-                  left: ${x - left}px;
-                  background-image: url('https://orig00.deviantart.net/39bb/f/2016/217/1/0/free_googly_eye_by_terrakatski-dacmqt2.png');
-                `;
+        div.style.cssText = `z-index: 2;
+             width: 35%;
+             height: 35%;
+             position: absolute;
+             background-size: cover;
+             top: ${y - top}px;
+             left: ${x - left}px;
+             background-image: url('https://orig00.deviantart.net/39bb/f/2016/217/1/0/free_googly_eye_by_terrakatski-dacmqt2.png');
+            `;
       });
     });
     !this.state.showLandmarks && this.setState({showLandmarks: true});
@@ -185,14 +187,13 @@ class FaceDetection extends React.Component {
     this.videoTrack = null;
     this.video.srcObject = null;
     clearInterval(this.inverval);
-    this.setState({showLandmarks: false});
+    this.setState({showLandmarks: false, videoPlaying: false});
   };
 
   render() {
     return (
       <div
         id="wrapper"
-        style={{position: 'relative'}}
         className="pageWrapper faceDetection"
       >
         <h3
@@ -202,20 +203,39 @@ class FaceDetection extends React.Component {
         </h3>
         <h2>{faceDetection.title}</h2>
 
-        <video
-          ref={this._videoRef}
-          autoPlay
-        />
-        <div ref={this._faceBox} style={{display: this.state.showLandmarks ? 'block' : 'none'}}>
-          <div id="eye-0"/>
-          <div id="eye-1"/>
-        </div>
-        <div className="controls">
-          {this.state.showLandmarks && <button onClick={this.stopVideo}>Stop Video</button>}
-          {!this.state.showLandmarks && <button onClick={this.startVideo}>Start Video</button>}
+        <div className="media-container" style={{position: 'relative'}}>
+          <video
+            style={{display: this.state.videoPlaying ? 'block' : 'none'}}
+            ref={this._videoRef}
+            autoPlay
+          />
+          <div className="controls">
+            {this.state.showLandmarks && <button onClick={this.stopVideo}>Stop Video</button>}
+            {!this.state.showLandmarks && <button onClick={this.startVideo}>Start Video</button>}
+          </div>
+          {
+            this.state.faceAppeared &&
+            <div className="detectFace">
+              <button onClick={() => this.detectFaces(this.state.faceAppeared)}>DETECT FACE</button>
+            </div>
+          }
+          <div className="imageDetection dropTarget" style={{position: 'relative', width: 760}}>
+            {!this.state.videoPlaying && this.state.faceAppeared &&
+            <div ref={this._faceBox} style={{display: this.state.showLandmarks ? 'block' : 'none'}}>
+              <div id="eye-0"/>
+              <div id="eye-1"/>
+            </div>
+            }
+          </div>
+          {
+            this.state.videoPlaying &&
+            <div ref={this._faceBox} style={{display: this.state.showLandmarks ? 'block' : 'none'}}>
+              <div id="eye-0"/>
+              <div id="eye-1"/>
+            </div>
+          }
         </div>
         <div ref={this._trash} className="trash"/>
-        <div className="imageDetection dropTarget"/>
       </div>
     );
   }
