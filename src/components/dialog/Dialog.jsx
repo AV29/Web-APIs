@@ -118,7 +118,7 @@ class Dialog extends Component {
           </form>
         </dialog>
         <button onClick={this.handleOpenModal}>Update details</button>
-        <h2>{this.state.chosenCrypto}</h2>
+        <h2 className="result">{this.state.chosenCrypto}</h2>
       </div>
     );
   }

@@ -74,10 +74,12 @@ class PageVisibility extends Component {
               return (
                 <strong
                   key={index}
-                  className="state"
+                  className={`state ${index >= stateCount - 2 && 'marked-state'}`}
                   style={{textDecoration}}
                 >
                   {state}
+                  {index === stateCount - 1 && <span style={{color: 'darkgreen', fontSize: '15px'}}>(last step)</span>}
+                  {index === stateCount - 2 && <span style={{color: 'darkred', fontSize: '15px'}}>(previous step)</span>}
                 </strong>
               );
             })}
