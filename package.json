@@ -1,7 +1,7 @@
 {
   "name": "WEB-API-Demo",
   "version": "0.0.1",
-  "description": "Moern and interesting web api demonstration",
+  "description": "Demonstartion of interesting web apis",
   "main": "index.js",
   "scripts": {
     "start": "babel-node tools/serverDev.js"
