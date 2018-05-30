@@ -27,6 +27,7 @@ class DragAndDrop extends Component {
     function handleDragStart(event) {
       event.dataTransfer.setData('text/plain', event.target.id);
       event.target.classList.add('isDragStarted');
+      event.dataTransfer.dropEffect = 'move';
     }
 
     function handleDragOver(event) {

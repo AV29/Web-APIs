@@ -7,7 +7,6 @@ const {speechSynthesis} = routesConfiguration;
 class SpeechSynthesis extends Component {
   constructor(props) {
     super(props);
-    console.log('Constructor');
     this.voices = [];
     this.synth = window.speechSynthesis;
 
@@ -27,13 +26,11 @@ class SpeechSynthesis extends Component {
   }
 
   getVoices() {
-    console.log('Get voices');
     this.voices = this.synth.getVoices();
   }
 
   speak() {
     if (this.synth.speaking) {
-      console.error('speechSynthesis.speaking');
       return;
     }
     if (this.state.text !== '') {
@@ -59,7 +56,6 @@ class SpeechSynthesis extends Component {
   }
 
   render() {
-    console.log('Render');
     return (
       <div className="pageWrapper speechSynthesisWrapper">
         <h2>{speechSynthesis.title}</h2>
