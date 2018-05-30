@@ -207,6 +207,12 @@ class FaceDetection extends React.Component {
             ? <button onClick={this.stopVideo}>Stop Video</button>
             : <button onClick={this.startVideo}>Start Video</button>
           }
+          {
+            this.state.faceAppeared &&
+            <div className="detectFace">
+              <button onClick={() => this.detectFaces(this.state.faceAppeared)}>DETECT FACE</button>
+            </div>
+          }
         </div>
         <div className="media-container dropTarget">
           <video
@@ -214,12 +220,6 @@ class FaceDetection extends React.Component {
             ref={this._videoRef}
             autoPlay
           />
-          {
-            this.state.faceAppeared &&
-            <div className="detectFace">
-              <button onClick={() => this.detectFaces(this.state.faceAppeared)}>DETECT FACE</button>
-            </div>
-          }
           {(this.state.videoPlaying || this.state.faceAppeared) &&
           <div ref={this._faceBox} style={{display: this.state.showLandmarks ? 'block' : 'none'}}>
             <div id="eye-0"/>

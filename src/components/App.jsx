@@ -15,6 +15,8 @@ import './App.less';
 
 const {speechMain, pageVisibility, dragAndDrop, media, root, dialog, faceDetection, networkInfo} = routesConfiguration;
 
+const startStep = 0;
+
 class App extends Component {
   static propTypes = {
     history: object
@@ -28,7 +30,8 @@ class App extends Component {
     super(props);
     this.menuListSize = App.getMenuListSize();
     this.state = {
-      step: 0
+      step: startStep,
+      isExperimentalFeatureLocked: true
     };
   }
 
@@ -41,11 +44,17 @@ class App extends Component {
   }
 
   handleKeyDown = ({which}) => {
-    if ((which !== 38 && which !== 40) || this.props.location.pathname !== root.path) {
+    if ((which !== 38 && which !== 40) ||
+      this.props.location.pathname !== root.path ||
+      !this.state.isExperimentalFeatureLocked) {
       return;
     }
     this.state.step < this.menuListSize && which === 40 && this.setState(({step}) => ({step: step + 1}));
-    this.state.step > 0 && which === 38 && this.setState(({step}) => ({step: step - 1}));
+    this.state.step > startStep && which === 38 && this.setState(({step}) => ({step: step - 1}));
+  };
+
+  handleUnlockHardCoreFeature = () => {
+    this.setState({isExperimentalFeatureLocked: false});
   };
 
   redirect = path => {
@@ -65,14 +74,48 @@ class App extends Component {
         </div>
         <div className="contentWrapper">
           <Switch>
-            <ExtendedRoute exact path={root.path} step={this.state.step} component={ContentList}/>
-            <Route path={speechMain.path} component={Speech}/>
-            <Route exact path={pageVisibility.path} component={PageVisibility}/>
-            <Route exact path={dragAndDrop.path} component={DragAndDrop}/>
-            <Route exact path={media.path} component={Media}/>
-            <Route exact path={dialog.path} component={Dialog}/>
-            <Route exact path={networkInfo.path} component={NetworkInformation}/>
-            <Route exact path={faceDetection.path} component={FaceDetection}/>
+            <ExtendedRoute
+              exact
+              path={root.path}
+              step={this.state.step}
+              isExperimentalFeatureLocked={this.state.isExperimentalFeatureLocked}
+              onUnlockHardCoreFeature={this.handleUnlockHardCoreFeature}
+              component={ContentList}
+            />
+            <Route
+              path={speechMain.path}
+              component={Speech}
+            />
+            <Route
+              exact
+              path={pageVisibility.path}
+              component={PageVisibility}
+            />
+            <Route
+              exact
+              path={dragAndDrop.path}
+              component={DragAndDrop}
+            />
+            <Route
+              exact
+              path={media.path}
+              component={Media}
+            />
+            <Route
+              exact
+              path={dialog.path}
+              component={Dialog}
+            />
+            <Route
+              exact
+              path={networkInfo.path}
+              component={NetworkInformation}
+            />
+            <Route
+              exact
+              path={faceDetection.path}
+              component={FaceDetection}
+            />
           </Switch>
         </div>
       </div>

@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
-import {object, number} from 'prop-types';
+import {object, number, func, bool} from 'prop-types';
 import classNames from 'classnames';
 import routesConfiguration from '../routing/routesConfiguration';
+import './ContentList.less';
 
 const {speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection, networkInfo} = routesConfiguration;
 
 class ContentList extends Component {
 
   static propTypes = {
+    onUnlockHardCoreFeature: func,
+    isExperimentalFeatureLocked: bool,
     history: object,
     step: number
   };
@@ -16,10 +19,41 @@ class ContentList extends Component {
     this.props.history.push(path);
   };
 
+  handleRenderHardCoreFeature = hardCoreFeatureMode => {
+    return hardCoreFeatureMode
+      ? <div className="experimental-feature">
+        <h1 className="sectionTitle">Hardcore Feature</h1>
+        <div>
+          <button
+            className="unlock-hardcore-button"
+            onClick={this.props.onUnlockHardCoreFeature}
+          >
+            <h2>unlock</h2>
+          </button>
+        </div>
+      </div>
+      : (
+        <h1
+          onClick={() => this.redirect(faceDetection.path)}
+          className={classNames([
+            'sectionTitle',
+            `sectionTitle-${faceDetection.step}`
+          ])}
+        >
+          {faceDetection.title}
+        </h1>
+      );
+  };
+
   render() {
-    const {step} = this.props;
+    const {step, isExperimentalFeatureLocked} = this.props;
     return (
-      <div className="content">
+      <div className={classNames([
+        'content',
+        {'experimentalFeatureUnLocked': !isExperimentalFeatureLocked},
+        {'experimentalFeatureAppeared': step > faceDetection.step}
+      ])}
+      >
         {
           step > dragAndDrop.step &&
           <h1
@@ -56,7 +90,6 @@ class ContentList extends Component {
             {pageVisibility.title}
           </h1>
         }
-
         {
           step > media.step &&
           <h1
@@ -66,24 +99,20 @@ class ContentList extends Component {
             {media.title}
           </h1>
         }
-
         {
           step > networkInfo.step &&
           <h1
-            className={classNames(['sectionTitle', `sectionTitle-${networkInfo.step}`])}
+            className={classNames([
+              'sectionTitle',
+              `sectionTitle-${networkInfo.step}`
+            ])}
             onClick={() => this.redirect(networkInfo.path)}
           >
             {networkInfo.title}
           </h1>
         }
         {
-          step > faceDetection.step &&
-          <h1
-            className={classNames(['sectionTitle', `sectionTitle-${faceDetection.step}`])}
-            onClick={() => this.redirect(faceDetection.path)}
-          >
-            {faceDetection.title}
-          </h1>
+          step > faceDetection.step && this.handleRenderHardCoreFeature(isExperimentalFeatureLocked)
         }
       </div>
     );

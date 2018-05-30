@@ -9,8 +9,6 @@
     position: relative;
     height: 100%;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
     .controls {
       text-align: center;
     }
@@ -24,7 +22,8 @@
     background-image: url('../../assets/trash-closed.png');
     background-size: cover;
     right: 0;
-    bottom: 0;
+    bottom: 50%;
+    transform: translateY(50%);
     position: absolute;
     &.isOver {
       background-image: url('../../assets/trash-opened.png');
