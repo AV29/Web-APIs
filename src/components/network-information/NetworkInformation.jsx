@@ -74,9 +74,7 @@ class NetworkInformation extends Component {
   render() {
     return (
       <div className="pageWrapper networkInfoWrapper">
-        <h3
-          className="pageIdentificator"
-        >
+        <h3 className="pageIdentificator">
           {networkInfo.title}
         </h3>
         <div id="currentConnectionInfo"/>
