@@ -72,6 +72,7 @@ class NetworkInformation extends Component {
   }
 
   render() {
+    //test commit change
     return (
       <div className="pageWrapper networkInfoWrapper">
         <h3 className="pageIdentificator">
