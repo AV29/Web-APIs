@@ -74,7 +74,7 @@ export default {
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
-        loader: 'file-loader'
+        loader: 'url-loader?limit=10000&mimetype=image/png'
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

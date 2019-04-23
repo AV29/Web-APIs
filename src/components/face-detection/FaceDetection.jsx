@@ -170,33 +170,14 @@ class FaceDetection extends React.Component {
       const faceBox = document.createElement('div');
       this.mediaContainer.appendChild(faceBox);
       faceBox.classList.add('detected-face-box');
+      const { top: topMediaContainer } = this.mediaContainer.getBoundingClientRect();
+      const { left: leftImageOffset, top: topImage } = this.mediaContainer.querySelector('img').getBoundingClientRect();
       faceBox.style.cssText = `
-                position: absolute;
-                z-index: 2;
                 width: ${width}px;
                 height: ${height}px;
-                top: ${top}px;
-                left: ${left}px;
+                top: ${top + (topImage - topMediaContainer)}px;
+                left: ${left + leftImageOffset}px;
               `;
-
-      face.landmarks.forEach((landmark, index) => {
-        if (landmark.type !== 'eye') {
-          return;
-        }
-
-        const [{ x, y }] = landmark.locations;
-        const eye = document.createElement('div');
-        faceBox.appendChild(eye);
-        eye.style.cssText = `z-index: 2;
-             width: 35%;
-             height: 35%;
-             position: absolute;
-             background-size: cover;
-             top: calc(${y - top}px - 17%);
-             left: calc(${x - left}px - 17%);
-             background-image: url('https://orig00.deviantart.net/39bb/f/2016/217/1/0/free_googly_eye_by_terrakatski-dacmqt2.png');
-            `;
-      });
     });
     !this.state.showLandmarks && this.setState({ showLandmarks: true });
   };
@@ -221,15 +202,7 @@ class FaceDetection extends React.Component {
 
         const [{ x, y }] = landmark.locations;
         const div = document.getElementById(`eye-${index}`);
-        div.style.cssText = `z-index: 2;
-             width: 35%;
-             height: 35%;
-             position: absolute;
-             background-size: cover;
-             top: calc(${y - top}px - 17%);
-             left: calc(${x - left}px - 17%);
-             background-image: url('https://orig00.deviantart.net/39bb/f/2016/217/1/0/free_googly_eye_by_terrakatski-dacmqt2.png');
-            `;
+        div.style.cssText = `top: ${y - top}; left: ${x - left};`;
       });
     });
     !this.state.showLandmarks && this.setState({ showLandmarks: true });
@@ -258,10 +231,10 @@ class FaceDetection extends React.Component {
         </h3>
         <h2>{faceDetection.title}</h2>
         <div className="controls">
-          {this.state.videoPlaying
+          {/*{this.state.videoPlaying
             ? <button onClick={this.stopVideo}>Stop Video</button>
             : <button onClick={this.startVideo}>Start Video</button>
-          }
+          }*/}
           {
             this.state.faceAppeared &&
             <div className="detectFace">

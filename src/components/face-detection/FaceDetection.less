@@ -12,6 +12,10 @@
     height: 100%;
     width: 100%;
 
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
     .controls {
       text-align: center;
     }
@@ -34,5 +38,20 @@
     &.isOver {
       background-image: url('../../assets/trash-opened.png');
     }
+  }
+
+  .detected-face-box {
+    border: 3px solid lightgreen;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .eye {
+    z-index: 2;
+    width: 35%;
+    height: 35%;
+    position: absolute;
+    background-size: cover;
+    background-image: url('../../assets/eye.png');
   }
 }
