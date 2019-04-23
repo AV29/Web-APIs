@@ -1,19 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
 import './DragAndDrop.less';
 
-const {dragAndDrop} = routesConfiguration;
+const { dragAndDrop } = routesConfiguration;
 
 class DragAndDrop extends Component {
 
-  componentDidMount() {
-    function addListenersForDragging(element) {
+  componentDidMount () {
+    function addListenersForDragging (element) {
       element.addEventListener('dragstart', handleDragStart);
       element.addEventListener('drag', handleDrag);
       element.addEventListener('dragend', handleDragEnd);
     }
 
-    function addListenersForDropping(element) {
+    function addListenersForDropping (element) {
       element.addEventListener('drop', handleDrop);
       element.addEventListener('dragover', handleDragOver);
       element.addEventListener('dragleave', handleDragLeave);
@@ -24,19 +24,19 @@ class DragAndDrop extends Component {
     const trash = document.getElementById('trash');
     addListenersForDropping(trash);
 
-    function handleDragStart(event) {
+    function handleDragStart (event) {
       event.dataTransfer.setData('text/plain', event.target.id);
       event.target.classList.add('isDragStarted');
       event.dataTransfer.dropEffect = 'move';
     }
 
-    function handleDragOver(event) {
+    function handleDragOver (event) {
       event.preventDefault(); // preventing touch and pointer events
       event.target.classList.add('isOver');
       event.dataTransfer.dropEffect = 'move';
     }
 
-    function handleDrop(event) {
+    function handleDrop (event) {
       event.preventDefault();
       const dataItems = event.dataTransfer.items; //DataTransferItemList object
       for (let i = 0; i < dataItems.length; i += 1) {
@@ -44,7 +44,7 @@ class DragAndDrop extends Component {
           dataItems[i].getAsString(function (s) {
             console.log('... Drop: Text');
             const draggableItem = document.getElementById(s);
-            if(event.target.id === 'trash') {
+            if (event.target.id === 'trash') {
               draggableItem.parentElement.removeChild(draggableItem);
             } else {
               document.getElementById(s) && event.target.appendChild(document.getElementById(s));
@@ -57,7 +57,7 @@ class DragAndDrop extends Component {
         } else if (dataItems[i].kind === 'file' && dataItems[i].type.match('^image/')) {
           const f = dataItems[i].getAsFile();
           const reader = new FileReader();
-          reader.onload = ({target: {result}}) => {
+          reader.onload = ({ target: { result } }) => {
             const image = document.createElement('img');
             image.src = result;
             image.draggable = true;
@@ -73,20 +73,20 @@ class DragAndDrop extends Component {
       event.target.classList.remove('isOver');
     }
 
-    function handleDragLeave(event) {
+    function handleDragLeave (event) {
       event.target.classList.remove('isOver');
     }
 
-    function handleDrag(event) {
+    function handleDrag (event) {
       event.target.classList.add('isDragged');
     }
 
-    function handleDragEnd(event) {
+    function handleDragEnd (event) {
       event.target.classList.remove('isDragged');
       event.target.classList.remove('isDragStarted');
     }
 
-    function handleFileSelect(evt) {
+    function handleFileSelect (evt) {
       evt.stopPropagation();
       evt.preventDefault();
 
@@ -104,7 +104,7 @@ class DragAndDrop extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <div className="pageWrapper dragAndDrop">
         <h3

@@ -1,7 +1,8 @@
 /* eslint-disable prefer-template*/
 import webpack from 'webpack';
+import { PORT, DEVELOPMENT } from './tools/constants';
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-import {PORT} from './tools/constants';
 
 process.noDeprecation = true;
 
@@ -10,13 +11,13 @@ export default {
   entry: [
     `webpack-dev-server/client?http://localhost:${PORT}`,
     'webpack/hot/only-dev-server',
-    'babel-polyfill',
     './src/index'
   ],
   output: {
     filename: 'dev-bundle.js',
     publicPath: '/'
   },
+  mode: DEVELOPMENT,
   target: 'web',
   plugins: [
     new webpack.LoaderOptionsPlugin({
@@ -28,8 +29,9 @@ export default {
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      favicon: './favicon.ico',
-      template: './src/index.html'
+      filename: 'index.html',
+      favicon: 'favicon.ico',
+      template: './src/index.html',
     })
   ],
   resolve: {
@@ -72,7 +74,15 @@ export default {
       },
       {
         test: /\.(jpe?g|png|gif)$/i,
-        loader: 'url-loader?limit=10000&mimetype=image/png'
+        loader: 'file-loader'
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader'
       },
       {
         test: /\.mp4$/,
@@ -80,20 +90,7 @@ export default {
       },
       {
         test: /\.svg$/,
-        use: [
-          {
-            loader: 'babel-loader'
-          },
-          {
-            loader: 'react-svg-loader',
-            query: {
-              svgo: {
-                plugins: [{removeTitle: false}],
-                floatPrecision: 2
-              }
-            }
-          }
-        ]
+        loader: 'svg-inline-loader'
       }
     ]
   }

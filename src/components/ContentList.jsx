@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {object, number, func, bool} from 'prop-types';
+import React, { Component } from 'react';
+import { object, number, func, bool } from 'prop-types';
 import classNames from 'classnames';
 import routesConfiguration from '../routing/routesConfiguration';
 import './ContentList.less';
 
-const {speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection, networkInfo} = routesConfiguration;
+const { speechMain, pageVisibility, dragAndDrop, media, dialog, faceDetection, networkInfo } = routesConfiguration;
 
 class ContentList extends Component {
 
@@ -45,13 +45,13 @@ class ContentList extends Component {
       );
   };
 
-  render() {
-    const {step, isExperimentalFeatureLocked} = this.props;
+  render () {
+    const { step, isExperimentalFeatureLocked } = this.props;
     return (
       <div className={classNames([
         'content',
-        {'experimentalFeatureUnLocked': !isExperimentalFeatureLocked},
-        {'experimentalFeatureAppeared': step > faceDetection.step}
+        { 'experimentalFeatureUnLocked': !isExperimentalFeatureLocked },
+        { 'experimentalFeatureAppeared': step > faceDetection.step }
       ])}
       >
         {

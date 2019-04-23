@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
 import './Media.less';
 
-const {media} = routesConfiguration;
+const { media } = routesConfiguration;
 
 class Media extends Component {
 
-  componentDidMount() {
+  componentDidMount () {
     const videoElement = document.querySelector('#video');
     const logElement = document.querySelector('#log');
     const audioList = document.querySelector('#audioList');
@@ -40,23 +40,23 @@ class Media extends Component {
       ev.preventDefault();
     }, false);
 
-    function enumerateDevices() {
+    function enumerateDevices () {
       navigator.mediaDevices.ondevicechange = handleDeviceChange;
       handleDeviceChange();
     }
 
-    function handleDeviceChange(event) {
+    function handleDeviceChange (event) {
       navigator.mediaDevices.enumerateDevices().then(displayDevices);
     }
 
-    function startStream() {
+    function startStream () {
       videoElement.style.display = 'block';
       navigator.mediaDevices.getUserMedia(constraints)
         .then(applyStream)
-        .catch(({name, message}) => log(`${name}: ${message}`));
+        .catch(({ name, message }) => log(`${name}: ${message}`));
     }
 
-    function stopVideoStream() {
+    function stopVideoStream () {
       if (videoTrack) {
         videoTrack.stop();
       }
@@ -66,12 +66,12 @@ class Media extends Component {
       videoElement.style.display = 'none';
     }
 
-    function applyStream(stream) {
+    function applyStream (stream) {
       videoElement.srcObject = stream;
       getMediaTracks(stream);
     }
 
-    function getMediaTracks(stream) {
+    function getMediaTracks (stream) {
 
       const videoTracks = stream.getVideoTracks();
 
@@ -80,11 +80,11 @@ class Media extends Component {
       }
     }
 
-    function log(msg) {
+    function log (msg) {
       logElement.innerHTML += `<p>${msg}</p>`;
     }
 
-    function displayDevices(devices) {
+    function displayDevices (devices) {
       audioList.innerHTML = '';
       videoList.innerHTML = '';
 
@@ -101,7 +101,7 @@ class Media extends Component {
       });
     }
 
-    function takepicture() {
+    function takepicture () {
       const context = canvas.getContext('2d');
       if (width && height) {
         canvas.style.display = 'block';
@@ -119,7 +119,7 @@ class Media extends Component {
     }, false);
   }
 
-  render() {
+  render () {
     return (
       <div className="pageWrapper mediaWrapper">
         <h3 className="pageIdentificator">{media.title}</h3>
@@ -130,9 +130,9 @@ class Media extends Component {
         </div>
         <div className="mediaWrapper">
           <div className="streamWrapper">
-            <video id="video" width="480" height="360" autoPlay style={{display: 'none'}}/>
+            <video id="video" width="480" height="360" autoPlay style={{ display: 'none' }}/>
           </div>
-          <canvas id="canvas" style={{display: 'none'}}/>
+          <canvas id="canvas" style={{ display: 'none' }}/>
         </div>
         <div className="controls">
           <button id="stopAudio">Stop Video</button>

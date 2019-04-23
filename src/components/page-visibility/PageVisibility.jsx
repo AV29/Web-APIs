@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
 import './PageVisibility.less';
 
-const {pageVisibility} = routesConfiguration;
+const { pageVisibility } = routesConfiguration;
 
 class PageVisibility extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.videoElement = null;
@@ -18,24 +18,24 @@ class PageVisibility extends Component {
     this.handlePlayVideo = this.handlePlayVideo.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.subscribe();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe();
   }
 
-  handlePlayVideo() {
+  handlePlayVideo () {
     document.title = 'Playing';
   }
 
-  handlePauseVideo() {
+  handlePauseVideo () {
     document.title = 'Paused';
   }
 
-  handleVisibilityChange() {
-    this.setState(({visibilityState}) => ({visibilityState: visibilityState.concat(document.visibilityState)}));
+  handleVisibilityChange () {
+    this.setState(({ visibilityState }) => ({ visibilityState: visibilityState.concat(document.visibilityState) }));
     if (!document.hidden) {
       this.videoElement.pause();
     } else {
@@ -43,19 +43,19 @@ class PageVisibility extends Component {
     }
   }
 
-  subscribe() {
+  subscribe () {
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.videoElement.addEventListener('pause', this.handlePauseVideo);
     this.videoElement.addEventListener('play', this.handlePlayVideo);
   }
 
-  unsubscribe() {
+  unsubscribe () {
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     this.videoElement.removeEventListener('pause', this.handlePauseVideo);
     this.videoElement.removeEventListener('play', this.handlePlayVideo);
   }
 
-  render() {
+  render () {
     const stateCount = this.state.visibilityState.length;
     return (
       <div className="pageWrapper pageVisibility">
@@ -75,11 +75,13 @@ class PageVisibility extends Component {
                 <strong
                   key={index}
                   className={`state ${index >= stateCount - 2 && 'marked-state'}`}
-                  style={{textDecoration}}
+                  style={{ textDecoration }}
                 >
                   {state}
-                  {index === stateCount - 1 && <span style={{color: 'darkgreen', fontSize: '15px'}}>(last step)</span>}
-                  {index === stateCount - 2 && <span style={{color: 'darkred', fontSize: '15px'}}>(previous step)</span>}
+                  {index === stateCount - 1 &&
+                  <span style={{ color: 'darkgreen', fontSize: '15px' }}>(last step)</span>}
+                  {index === stateCount - 2 &&
+                  <span style={{ color: 'darkred', fontSize: '15px' }}>(previous step)</span>}
                 </strong>
               );
             })}

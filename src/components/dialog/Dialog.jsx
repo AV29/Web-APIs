@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
 import './Dialog.less';
 
-const {dialog} = routesConfiguration;
+const { dialog } = routesConfiguration;
 
 class Dialog extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {
@@ -21,33 +21,33 @@ class Dialog extends Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.dialog.addEventListener('close', this.handleClose);
   }
 
-  handleClose() {
-    this.setState({chosenCrypto: this.dialog.returnValue});
+  handleClose () {
+    this.setState({ chosenCrypto: this.dialog.returnValue });
   }
 
-  handleOpenModal() {
+  handleOpenModal () {
     this.dialog.showModal();
   }
 
-  handleCancel() {
-    if(this.state.chosenCrypto) {
+  handleCancel () {
+    if (this.state.chosenCrypto) {
       this.dialog.close(this.state.chosenCrypto);
     } else {
       this.dialog.close('Browser not chosen');
     }
   }
 
-  handleSelect(event) {
-    const {target: {name}} = event;
-    this.setState({currentCrypto: name});
+  handleSelect (event) {
+    const { target: { name } } = event;
+    this.setState({ currentCrypto: name });
     this.dialog.returnValue = name;
   }
 
-  render() {
+  render () {
     return (
       <div className="pageWrapper dialogWrapper">
         <h3

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {object} from 'prop-types';
-import {Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import { object } from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
 import routesConfiguration from '../routing/routesConfiguration';
 import ContentList from './ContentList';
 import PageVisibility from './page-visibility/PageVisibility';
@@ -13,7 +13,7 @@ import Speech from './speech/Speech';
 import ExtendedRoute from './common/extended-route/ExtendedRoute';
 import './App.less';
 
-const {speechMain, pageVisibility, dragAndDrop, media, root, dialog, faceDetection, networkInfo} = routesConfiguration;
+const { speechMain, pageVisibility, dragAndDrop, media, root, dialog, faceDetection, networkInfo } = routesConfiguration;
 
 const startStep = 0;
 
@@ -26,7 +26,7 @@ class App extends Component {
     return Object.keys(routesConfiguration).filter(key => routesConfiguration[key].step !== undefined).length;
   };
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.menuListSize = App.getMenuListSize();
     this.state = {
@@ -35,33 +35,33 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleKeyDown = ({which}) => {
+  handleKeyDown = ({ which }) => {
     if ((which !== 38 && which !== 40) ||
       this.props.location.pathname !== root.path ||
       !this.state.isExperimentalFeatureLocked) {
       return;
     }
-    this.state.step < this.menuListSize && which === 40 && this.setState(({step}) => ({step: step + 1}));
-    this.state.step > startStep && which === 38 && this.setState(({step}) => ({step: step - 1}));
+    this.state.step < this.menuListSize && which === 40 && this.setState(({ step }) => ({ step: step + 1 }));
+    this.state.step > startStep && which === 38 && this.setState(({ step }) => ({ step: step - 1 }));
   };
 
   handleUnlockHardCoreFeature = () => {
-    this.setState({isExperimentalFeatureLocked: false});
+    this.setState({ isExperimentalFeatureLocked: false });
   };
 
   redirect = path => {
     this.props.history.push(path);
   };
 
-  render() {
+  render () {
     return (
       <div className="webApiDemoContainer">
         <div className="header">

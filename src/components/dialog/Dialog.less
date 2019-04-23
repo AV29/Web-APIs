@@ -3,6 +3,7 @@
 .dialogWrapper {
   text-align: center;
   padding: 15px;
+
   .browserDialog {
     padding: 0;
     border-radius: 4px;
@@ -33,6 +34,7 @@
     justify-content: space-between;
     min-height: 250px;
   }
+
   .formBody {
     color: #666;
     padding: 10px;
@@ -40,28 +42,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     .controls {
       display: inline-block;
+
       .innerWrapper {
         display: flex;
         flex-direction: column;
       }
     }
   }
+
   .submitSection {
     padding: 10px;
     text-align: right;
     background-color: #f1f0ec;
   }
+
   button {
     padding: 10px 15px;
     margin: 0 0 0 5px;
     color: ivory;
     background-color: green;
+
     &.secondary {
       color: ivory;
       background-color: tomato;
     }
+
     &.primary {
       color: ivory;
       background-color: skyblue;
@@ -71,10 +79,12 @@
   .checkboxInput {
     display: inline-block;
     margin-bottom: 10px;
+
     .labelText {
       font-size: 2rem;
       font-weight: 700;
     }
+
     input[type="radio"] {
       position: absolute;
       width: 0;
@@ -87,6 +97,7 @@
       display: flex;
       align-items: center;
     }
+
     &.toggler {
       label {
         .toggler {
@@ -99,6 +110,7 @@
           border-radius: 15px;
           background-color: #d8d8d8;
           transition: @transition;
+
           &:before {
             position: absolute;
             content: "";
@@ -113,6 +125,7 @@
             box-sizing: border-box;
           }
         }
+
         &:before {
           display: none;
         }
@@ -124,9 +137,11 @@
             box-shadow: 0 0 1px green;
           }
         }
+
         &:checked + label {
           .toggler {
             background-color: green;
+
             &:before {
               transform: translateX(100%) translateX(-8px);
               border-color: green;
@@ -134,9 +149,11 @@
               background-color: ivory;
             }
           }
+
           &.disabled {
             .toggler {
               background-color: #93c6e3;
+
               &:before {
                 border-color: #93c6e3;
               }
@@ -144,9 +161,11 @@
           }
         }
       }
+
       &.left {
         label {
           flex-direction: row-reverse;
+
           .toggler {
             margin-left: 10px;
           }

@@ -2,10 +2,10 @@ import React from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
 import './FaceDetection.less';
 
-const {faceDetection} = routesConfiguration;
+const { faceDetection } = routesConfiguration;
 
 class FaceDetection extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.videoTrack = null;
@@ -32,11 +32,11 @@ class FaceDetection extends React.Component {
     this.trash = trash;
   };
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this.inverval);
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (typeof window.FaceDetector === 'undefined') {
       alert('No face detection!');
       return;
@@ -92,7 +92,7 @@ class FaceDetection extends React.Component {
           const draggableItem = document.getElementById(s);
           if (event.target === this.trash) {
             draggableItem.parentElement.removeChild(draggableItem);
-            this.setState({showLandmarks: false, faceAppeared: null});
+            this.setState({ showLandmarks: false, faceAppeared: null });
             document.querySelectorAll('.detected-face-box').forEach(el => el.parentElement.removeChild(el));
           } else {
             document.getElementById(s) && event.target.appendChild(document.getElementById(s));
@@ -105,14 +105,14 @@ class FaceDetection extends React.Component {
       } else if (dataItems[i].kind === 'file' && dataItems[i].type.match('^image/')) {
         const f = dataItems[i].getAsFile();
         const reader = new FileReader();
-        reader.onload = ({target: {result}}) => {
+        reader.onload = ({ target: { result } }) => {
           const image = document.createElement('img');
           image.src = result;
           image.draggable = true;
           image.id = `fileImg-${Date.now()}`;
           this.addListenersForDragging(image);
           event.target.appendChild(image);
-          this.setState({faceAppeared: image});
+          this.setState({ faceAppeared: image });
         };
 
         reader.readAsDataURL(f);
@@ -123,9 +123,11 @@ class FaceDetection extends React.Component {
   };
 
   startVideo = () => {
-    const constrains = {audio: false, video: {width: 1440, height: 720}};
-    this.setState({videoPlaying: true});
-    navigator.mediaDevices.getUserMedia(constrains).then(this.applyStream);
+    const constrains = { audio: false, video: { width: 1440, height: 720 } };
+    this.setState({ videoPlaying: true });
+    navigator.mediaDevices.getUserMedia(constrains)
+      .then(this.applyStream)
+      .catch(({ name, message }) => console.error(name, message));
   };
 
   applyStream = stream => {
@@ -162,7 +164,7 @@ class FaceDetection extends React.Component {
 
   handleDetectFacesOnImage = faces => {
     faces.forEach(face => {
-      const {width, height, top, left} = face.boundingBox;
+      const { width, height, top, left } = face.boundingBox;
 
       const faceBox = document.createElement('div');
       this.mediaContainer.appendChild(faceBox);
@@ -181,7 +183,7 @@ class FaceDetection extends React.Component {
           return;
         }
 
-        const [{x, y}] = landmark.locations;
+        const [{ x, y }] = landmark.locations;
         const eye = document.createElement('div');
         faceBox.appendChild(eye);
         eye.style.cssText = `z-index: 2;
@@ -195,12 +197,12 @@ class FaceDetection extends React.Component {
             `;
       });
     });
-    !this.state.showLandmarks && this.setState({showLandmarks: true});
+    !this.state.showLandmarks && this.setState({ showLandmarks: true });
   };
 
   handleDetectFaces = faces => {
     faces.forEach(face => {
-      const {width, height, top, left} = face.boundingBox;
+      const { width, height, top, left } = face.boundingBox;
 
       this.faceBox.style.cssText = `
                 position: absolute;
@@ -216,7 +218,7 @@ class FaceDetection extends React.Component {
           return;
         }
 
-        const [{x, y}] = landmark.locations;
+        const [{ x, y }] = landmark.locations;
         const div = document.getElementById(`eye-${index}`);
         div.style.cssText = `z-index: 2;
              width: 35%;
@@ -229,7 +231,7 @@ class FaceDetection extends React.Component {
             `;
       });
     });
-    !this.state.showLandmarks && this.setState({showLandmarks: true});
+    !this.state.showLandmarks && this.setState({ showLandmarks: true });
   };
 
   stopVideo = () => {
@@ -239,10 +241,10 @@ class FaceDetection extends React.Component {
     this.videoTrack = null;
     this.video.srcObject = null;
     clearInterval(this.inverval);
-    this.setState({showLandmarks: false, videoPlaying: false});
+    this.setState({ showLandmarks: false, videoPlaying: false });
   };
 
-  render() {
+  render () {
     return (
       <div
         id="wrapper"
@@ -268,18 +270,19 @@ class FaceDetection extends React.Component {
         </div>
         <div ref={this._mediaContainer} className="media-container dropTarget">
           <video
-            style={{display: this.state.videoPlaying ? 'block' : 'none'}}
+            style={{ display: this.state.videoPlaying ? 'block' : 'none' }}
             ref={this._videoRef}
             autoPlay
           />
           {(this.state.videoPlaying || this.state.faceAppeared) &&
-          <div ref={this._faceBox} style={{display: this.state.showLandmarks ? 'block' : 'none'}}>
+          <div ref={this._faceBox} style={{ display: this.state.showLandmarks ? 'block' : 'none' }}>
             <div id="eye-0"/>
             <div id="eye-1"/>
           </div>
           }
         </div>
-        <div ref={this._trash} className="trash" style={{visibility: this.state.videoPlaying ? 'hidden' : 'visible'}}/>
+        <div ref={this._trash} className="trash"
+             style={{ visibility: this.state.videoPlaying ? 'hidden' : 'visible' }}/>
       </div>
     );
   }

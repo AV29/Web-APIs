@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {object} from 'prop-types';
-import {Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import { object } from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
 import PhraseMatcher from './phrase-matcher/PhraseMatcher';
 import SpeechSynthesis from './speech-synthesis/SpeechSynthesis';
 import SpeechColorChanger from './speech-color-changer/SpeechColorChanger';
 import routesConfiguration from '../../routing/routesConfiguration'
 import ContentList from './ContentList';
 
-const {phraseMatcher, speechSynthesis, speechMain, speechColorChanger} = routesConfiguration;
+const { phraseMatcher, speechSynthesis, speechMain, speechColorChanger } = routesConfiguration;
 
 class Speech extends Component {
 
@@ -19,7 +19,7 @@ class Speech extends Component {
     this.props.history.push(path);
   };
 
-  render() {
+  render () {
     return (
       <div className="pageWrapper">
         <h3

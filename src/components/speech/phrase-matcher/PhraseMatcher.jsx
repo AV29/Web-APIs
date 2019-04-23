@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration';
 import './PhraseMatcher.less';
 
-const {phraseMatcher} = routesConfiguration;
+const { phraseMatcher } = routesConfiguration;
 
 class PhraseMatcher extends Component {
 
-  componentDidMount() {
+  componentDidMount () {
     const SpeechRecognition = window.webkitSpeechRecognition;//SpeechRecognition || webkitSpeechRecognition;
     const SpeechGrammarList = window.webkitSpeechGrammarList;
     const SpeechRecognitionEvent = window.webkitSpeechRecognitionEvent;
@@ -28,11 +28,11 @@ class PhraseMatcher extends Component {
 
     const testBtn = document.querySelector('button');
 
-    function randomPhrase() {
+    function randomPhrase () {
       return Math.floor(Math.random() * phrases.length);
     }
 
-    function testSpeech() {
+    function testSpeech () {
       testBtn.disabled = true;
       testBtn.textContent = 'In progress';
 
@@ -122,7 +122,7 @@ class PhraseMatcher extends Component {
 
   }
 
-  render() {
+  render () {
     return (
       <div className="pageWrapper phraseMatcherWrapper">
         <h2>{phraseMatcher.title}</h2>

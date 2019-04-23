@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {object} from 'prop-types';
+import React, { Component } from 'react';
+import { object } from 'prop-types';
 import routesConfiguration from '../../routing/routesConfiguration'
 
-const {phraseMatcher, speechSynthesis, speechColorChanger} = routesConfiguration;
+const { phraseMatcher, speechSynthesis, speechColorChanger } = routesConfiguration;
 
 class ContentList extends Component {
 
@@ -14,7 +14,7 @@ class ContentList extends Component {
     this.props.history.push(path);
   };
 
-  render() {
+  render () {
     return (
       <div className="content">
         <h1

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration'
 import './SpeechSynthesis.less';
 
-const {speechSynthesis} = routesConfiguration;
+const { speechSynthesis } = routesConfiguration;
 
 class SpeechSynthesis extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.voices = [];
     this.synth = window.speechSynthesis;
@@ -25,18 +25,18 @@ class SpeechSynthesis extends Component {
     this.speak = this.speak.bind(this);
   }
 
-  getVoices() {
+  getVoices () {
     this.voices = this.synth.getVoices();
   }
 
-  speak() {
+  speak () {
     if (this.synth.speaking) {
       return;
     }
     if (this.state.text !== '') {
       const utterThis = new SpeechSynthesisUtterance(this.state.text);
-      for(let i = 0; i < this.voices.length ; i++) {
-        if(this.voices[i].name === this.state.voice) {
+      for (let i = 0; i < this.voices.length; i++) {
+        if (this.voices[i].name === this.state.voice) {
           utterThis.voice = this.voices[i];
         }
       }
@@ -47,15 +47,15 @@ class SpeechSynthesis extends Component {
     }
   }
 
-  handleChange({target: {value, name}}) {
-    this.setState({[name]: value});
+  handleChange ({ target: { value, name } }) {
+    this.setState({ [name]: value });
   }
 
-  handleSelectChange({target: {value}}) {
-    this.setState(state => ({voice: value}), this.speak);
+  handleSelectChange ({ target: { value } }) {
+    this.setState(state => ({ voice: value }), this.speak);
   }
 
-  render() {
+  render () {
     return (
       <div className="pageWrapper speechSynthesisWrapper">
         <h2>{speechSynthesis.title}</h2>

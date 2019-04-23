@@ -6,7 +6,7 @@ export const handleDrop = event => {
       dataItems[i].getAsString(function (s) {
         console.log('... Drop: Text');
         const draggableItem = document.getElementById(s);
-        if(event.target.id === 'trash') {
+        if (event.target.id === 'trash') {
           draggableItem.parentElement.removeChild(draggableItem);
         } else {
           event.target.appendChild(document.getElementById(s));
@@ -19,7 +19,7 @@ export const handleDrop = event => {
     } else if (dataItems[i].kind === 'file' && dataItems[i].type.match('^image/')) {
       const f = dataItems[i].getAsFile();
       const reader = new FileReader();
-      reader.onload = ({target: {result}}) => {
+      reader.onload = ({ target: { result } }) => {
         const image = document.createElement('img');
         image.src = result;
         image.draggable = true;
