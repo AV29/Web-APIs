@@ -1,6 +1,7 @@
 /* eslint-disable import/default */
 /* eslint-disable no-console */
 import webpack from 'webpack';
+import open from 'open';
 import config from '../webpack.config.js';
 import WebpackDevServer from 'webpack-dev-server';
 import { PORT, LOCALHOST_PATH, ENTRY_POINT } from './constants';
@@ -23,6 +24,7 @@ server.listen(PORT, LOCALHOST_PATH, function (err) {
   if (err) {
     console.log(err);
   } else {
+    open(ENTRY_POINT);
     console.log(chalk.chalkSuccess(`Listening... Go to ${ENTRY_POINT}`));
   }
 });
