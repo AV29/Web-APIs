@@ -1,6 +1,12 @@
 .faceDetection {
   height: 100%;
 
+  button {
+    padding: 10px;
+    min-width: 100px;
+    font-size: 16px;
+  }
+
   .imageDetection {
     flex: 1;
     width: 100%;
@@ -12,16 +18,23 @@
     height: 100%;
     width: 100%;
 
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 
-    .controls {
-      text-align: center;
-    }
+  }
 
-    .detectFace {
-      margin-right: 50px;
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  img {
+    cursor: grab;
+
+    &:active, &:focus {
+      cursor: grabbing;
     }
   }
 
@@ -46,12 +59,9 @@
     z-index: 2;
   }
 
-  .eye {
-    z-index: 2;
-    width: 35%;
-    height: 35%;
+  .video-detected-face-box {
     position: absolute;
-    background-size: cover;
-    background-image: url('../../assets/eye.png');
+    z-index: 2;
+    border: 3px solid red;
   }
 }

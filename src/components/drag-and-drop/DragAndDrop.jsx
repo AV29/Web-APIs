@@ -132,8 +132,8 @@ class DragAndDrop extends Component {
           </ul>
           <img
             id="draggable3"
-            className="draggableItem"
-            src="https://networksynapse.net/wp-content/uploads/2016/08/js-e1472086839814.jpg"
+            className="draggableItem draggableImage"
+            src="https://img.icons8.com/ios/420/javascript.png"
             alt="image"
           />
         </div>

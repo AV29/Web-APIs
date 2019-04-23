@@ -10,9 +10,14 @@ class FaceDetection extends React.Component {
 
     this.videoTrack = null;
     this.state = {
-      showLandmarks: false,
       faceAppeared: null,
-      videoPlaying: false
+      videoPlaying: false,
+      videoBoxBounds: {
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0
+      }
     };
   }
 
@@ -20,12 +25,12 @@ class FaceDetection extends React.Component {
     this.video = video;
   };
 
-  _faceBox = faceBox => {
-    this.faceBox = faceBox;
-  };
-
   _mediaContainer = container => {
     this.mediaContainer = container;
+  };
+
+  _faceBox = faceBox => {
+    this.faceBox = faceBox;
   };
 
   _trash = trash => {
@@ -93,7 +98,7 @@ class FaceDetection extends React.Component {
           const draggableItem = document.getElementById(s);
           if (event.target === this.trash) {
             draggableItem.parentElement.removeChild(draggableItem);
-            this.setState({ showLandmarks: false, faceAppeared: null });
+            this.setState({ faceAppeared: null });
             document.querySelectorAll('.detected-face-box').forEach(el => el.parentElement.removeChild(el));
           } else {
             document.getElementById(s) && event.target.appendChild(document.getElementById(s));
@@ -124,7 +129,15 @@ class FaceDetection extends React.Component {
   };
 
   startVideo = () => {
-    const constrains = { audio: false, video: { width: 1440, height: 720 } };
+    const constrains = {
+      echoCancellation: true,
+      video: {
+        width: 480,
+        height: 360,
+        frameRate: 30
+      },
+      audio: false
+    };
     this.setState({ videoPlaying: true });
     navigator.mediaDevices.getUserMedia(constrains)
       .then(this.applyStream)
@@ -140,72 +153,51 @@ class FaceDetection extends React.Component {
     this.video.srcObject = stream;
     setTimeout(() => {
       this.inverval = setInterval(() => {
-        this.detectFaces(this.video);
+        this.detectFaces(this.video, this.handleVideoDetection);
       }, 150);
     }, 500);
   };
 
-  detectFaces = target => {
+  detectFaces = (target, successCallback) => {
     this.faceDetector.detect(target)
-      .then(this.handleDetectFaces)
+      .then(successCallback)
       .catch(err => {
         console.log('Handled Error', err);
         this.stopVideo();
       });
   };
 
-  detectFacesOnImage = target => {
-    this.faceDetector.detect(target)
-      .then(this.handleDetectFacesOnImage)
-      .catch(err => {
-        console.log('Handled Error', err);
-        this.stopVideo();
-      });
-  };
+  getOffsetsForMediaContainer(type) {
+    const { top: topMediaContainer } = this.mediaContainer.getBoundingClientRect();
+    const { left, top } = this.mediaContainer.querySelector(type).getBoundingClientRect();
 
-  handleDetectFacesOnImage = faces => {
+    return {
+      leftOffset: left,
+      topOffset: top - topMediaContainer
+    };
+  }
+
+  setFaceBoxStyles(boxElement, face, offsets) {
+    const { width, height, top, left } = face.boundingBox;
+    const {leftOffset, topOffset} = offsets;
+    boxElement.style.cssText = `width: ${width}px; height: ${height}px; top: ${top + topOffset}px; left: ${left + leftOffset}px;`;
+  }
+
+  handleVideoDetection = faces => {
+    const offsets = this.getOffsetsForMediaContainer('video');
     faces.forEach(face => {
-      const { width, height, top, left } = face.boundingBox;
+      this.setFaceBoxStyles(this.faceBox, face, offsets)
+    });
+  };
 
+  handleImageDetection = faces => {
+    const offsets = this.getOffsetsForMediaContainer('img');
+    faces.forEach(face => {
       const faceBox = document.createElement('div');
       this.mediaContainer.appendChild(faceBox);
       faceBox.classList.add('detected-face-box');
-      const { top: topMediaContainer } = this.mediaContainer.getBoundingClientRect();
-      const { left: leftImageOffset, top: topImage } = this.mediaContainer.querySelector('img').getBoundingClientRect();
-      faceBox.style.cssText = `
-                width: ${width}px;
-                height: ${height}px;
-                top: ${top + (topImage - topMediaContainer)}px;
-                left: ${left + leftImageOffset}px;
-              `;
+      this.setFaceBoxStyles(faceBox, face, offsets);
     });
-    !this.state.showLandmarks && this.setState({ showLandmarks: true });
-  };
-
-  handleDetectFaces = faces => {
-    faces.forEach(face => {
-      const { width, height, top, left } = face.boundingBox;
-
-      this.faceBox.style.cssText = `
-                position: absolute;
-                z-index: 2;
-                width: ${width}px;
-                height: ${height}px;
-                top: ${top}px;
-                left: ${left}px;
-              `;
-
-      face.landmarks.forEach((landmark, index) => {
-        if (landmark.type !== 'eye') {
-          return;
-        }
-
-        const [{ x, y }] = landmark.locations;
-        const div = document.getElementById(`eye-${index}`);
-        div.style.cssText = `top: ${y - top}; left: ${x - left};`;
-      });
-    });
-    !this.state.showLandmarks && this.setState({ showLandmarks: true });
   };
 
   stopVideo = () => {
@@ -215,7 +207,7 @@ class FaceDetection extends React.Component {
     this.videoTrack = null;
     this.video.srcObject = null;
     clearInterval(this.inverval);
-    this.setState({ showLandmarks: false, videoPlaying: false });
+    this.setState({ videoPlaying: false });
   };
 
   render () {
@@ -224,22 +216,19 @@ class FaceDetection extends React.Component {
         id="wrapper"
         className="pageWrapper faceDetection"
       >
-        <h3
-          className="pageIdentificator"
-        >
+        <h3 className="pageIdentificator">
           {faceDetection.title}
         </h3>
         <h2>{faceDetection.title}</h2>
         <div className="controls">
-          {/*{this.state.videoPlaying
-            ? <button onClick={this.stopVideo}>Stop Video</button>
-            : <button onClick={this.startVideo}>Start Video</button>
-          }*/}
+          {
+            this.state.videoPlaying
+              ? <button onClick={this.stopVideo}>Stop Video</button>
+              : <button onClick={this.startVideo}>Start Video</button>
+          }
           {
             this.state.faceAppeared &&
-            <div className="detectFace">
-              <button onClick={() => this.detectFacesOnImage(this.state.faceAppeared)}>DETECT FACE</button>
-            </div>
+            <button onClick={() => this.detectFaces(this.state.faceAppeared, this.handleImageDetection)}>DETECT FACE</button>
           }
         </div>
         <div ref={this._mediaContainer} className="media-container dropTarget">
@@ -248,11 +237,13 @@ class FaceDetection extends React.Component {
             ref={this._videoRef}
             autoPlay
           />
-          {(this.state.videoPlaying || this.state.faceAppeared) &&
-          <div ref={this._faceBox} style={{ display: this.state.showLandmarks ? 'block' : 'none' }}>
-            <div id="eye-0"/>
-            <div id="eye-1"/>
-          </div>
+          {
+            (this.state.videoPlaying || this.state.faceAppeared) &&
+            <div
+              ref={this._faceBox}
+              className="video-detected-face-box"
+              style={{ display: this.state.videoPlaying ? 'block' : 'none' }}
+            />
           }
         </div>
         <div ref={this._trash} className="trash"

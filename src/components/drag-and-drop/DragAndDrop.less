@@ -1,4 +1,5 @@
 .dragAndDrop {
+  
   .dropTarget {
     display: flex;
     align-items: center;
@@ -31,6 +32,18 @@
       border: 3px dashed lightgrey;
       background-color: papayawhip;
     }
+  }
+
+  .draggableItem {
+    cursor: grab;
+
+    &:active, &:focus {
+      cursor: grabbing;
+    }
+  }
+
+  .draggableImage {
+    width: 100px;
   }
 
   .isDragged {
