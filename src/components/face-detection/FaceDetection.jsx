@@ -39,11 +39,12 @@ class FaceDetection extends React.Component {
   componentDidMount () {
     if (typeof window.FaceDetector === 'undefined') {
       alert('No face detection!');
-      return;
+      this.props.history.push('/');
+    } else {
+      document.querySelectorAll('.dropTarget').forEach(this.addListenersForDropping);
+      this.faceDetector = new window.FaceDetector();
+      this.addListenersForDropping(this.trash);
     }
-    document.querySelectorAll('.dropTarget').forEach(this.addListenersForDropping);
-    this.faceDetector = new window.FaceDetector();
-    this.addListenersForDropping(this.trash);
   }
 
   addListenersForDragging = element => {

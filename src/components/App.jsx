@@ -30,8 +30,7 @@ class App extends Component {
     super(props);
     this.menuListSize = App.getMenuListSize();
     this.state = {
-      step: startStep,
-      isExperimentalFeatureLocked: true
+      step: startStep
     };
   }
 
@@ -44,17 +43,11 @@ class App extends Component {
   }
 
   handleKeyDown = ({ which }) => {
-    if ((which !== 38 && which !== 40) ||
-      this.props.location.pathname !== root.path ||
-      !this.state.isExperimentalFeatureLocked) {
+    if ((which !== 38 && which !== 40) || this.props.location.pathname !== root.path) {
       return;
     }
     this.state.step < this.menuListSize && which === 40 && this.setState(({ step }) => ({ step: step + 1 }));
     this.state.step > startStep && which === 38 && this.setState(({ step }) => ({ step: step - 1 }));
-  };
-
-  handleUnlockHardCoreFeature = () => {
-    this.setState({ isExperimentalFeatureLocked: false });
   };
 
   redirect = path => {
@@ -78,8 +71,6 @@ class App extends Component {
               exact
               path={root.path}
               step={this.state.step}
-              isExperimentalFeatureLocked={this.state.isExperimentalFeatureLocked}
-              onUnlockHardCoreFeature={this.handleUnlockHardCoreFeature}
               component={ContentList}
             />
             <Route

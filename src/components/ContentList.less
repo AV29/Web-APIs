@@ -4,35 +4,4 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .experimental-feature {
-    color: black;
-    display: flex;
-    align-items: center;
-  }
-
-  &.experimentalFeatureUnLocked > :not(:last-child) {
-    transition: @transition;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  &.experimentalFeatureAppeared > :not(:last-child) {
-    pointer-events: none;
-    color: @faded-title-color;
-  }
-
-  .unlock-hardcore-button {
-    display: inline-block;
-    margin: 0 20px;
-    cursor: pointer;
-    color: grey;
-
-    &:hover {
-      transition: @transition;
-      color: white;
-      background-color: tomato;
-    }
-  }
 }
