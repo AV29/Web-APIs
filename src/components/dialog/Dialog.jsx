@@ -9,11 +9,11 @@ class Dialog extends Component {
     super(props);
 
     this.state = {
-      chosenCrypto: '',
-      currentCrypto: null
+      chosenValue: 'Not chosen',
+      currentValue: null
     };
 
-    this.cryptos = ['BuzCoin', 'BitCoin', 'CoCoin'];
+    this.values = ['Watchmen', 'Guardians of the Galaxy', 'will decide later'];
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -25,25 +25,28 @@ class Dialog extends Component {
     this.dialog.addEventListener('close', this.handleClose);
   }
 
+  componentWillUnmount () {
+    this.dialog.removeEventListener('close', this.handleClose);
+  }
+
   handleClose () {
-    this.setState({ chosenCrypto: this.dialog.returnValue });
+    this.setState({ chosenValue: this.dialog.returnValue });
   }
 
   handleOpenModal () {
-    this.dialog.showModal();
+    this.setState(
+      ({ chosenValue }) => ({ currentValue: chosenValue }),
+      () => this.dialog.showModal()
+    );
   }
 
   handleCancel () {
-    if (this.state.chosenCrypto) {
-      this.dialog.close(this.state.chosenCrypto);
-    } else {
-      this.dialog.close('Browser not chosen');
-    }
+    this.dialog.close(this.state.chosenValue);
   }
 
   handleSelect (event) {
     const { target: { name } } = event;
-    this.setState({ currentCrypto: name });
+    this.setState({ currentValue: name });
     this.dialog.returnValue = name;
   }
 
@@ -59,7 +62,7 @@ class Dialog extends Component {
           className="browserDialog"
           ref={dialog => this.dialog = dialog}
         >
-          <h3 className="dialogHeader">Crypto Currency</h3>
+          <h3 className="dialogHeader">Choose an option</h3>
           <form
             method="dialog"
             className="dialogForm"
@@ -68,27 +71,27 @@ class Dialog extends Component {
               <div className="controls">
                 <div className="innerWrapper">
                   {
-                    this.cryptos.map((crypto, index) => {
+                    this.values.map((value, index) => {
                       return (
                         <div
                           key={index}
                           className="dialogInput checkboxInput toggler"
                         >
                           <input
-                            id={crypto}
+                            id={value}
                             type="radio"
-                            name={crypto}
+                            name={value}
                             className="toggler"
-                            checked={this.state.currentCrypto === crypto}
-                            value={this.state.currentCrypto === crypto}
+                            checked={this.state.currentValue === value}
+                            value={value}
                             onChange={this.handleSelect}
                           />
                           <label
-                            htmlFor={crypto}
+                            htmlFor={value}
                             className="toggler"
                           >
                             <span className="toggler"/>
-                            <span className="labelText">{crypto}</span>
+                            <span className="labelText">{value}</span>
                           </label>
                         </div>
                       );
@@ -115,7 +118,7 @@ class Dialog extends Component {
           </form>
         </dialog>
         <button onClick={this.handleOpenModal}>Press me!</button>
-        <h2 className="result">{this.state.chosenCrypto}</h2>
+        <h2 className="result">{this.state.chosenValue}</h2>
       </div>
     );
   }
