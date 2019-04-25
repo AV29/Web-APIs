@@ -23,12 +23,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
   }
 
   .controls {
     display: flex;
-    flex-direction: column;
     align-items: center;
   }
 
@@ -49,9 +47,11 @@
     bottom: 50%;
     transform: translateY(50%);
     position: absolute;
+
     svg {
       fill: @app-accent-color;
     }
+
     &.isOver {
       background-image: url('../../assets/trash-opened.png');
     }
@@ -61,11 +61,19 @@
     border: 3px solid #25ff00;
     position: absolute;
     z-index: 2;
+    pointer-events: none;
   }
 
   .video-detected-face-box {
     position: absolute;
     z-index: 2;
     border: 3px solid @app-bg-color;
+  }
+
+  .codes {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
   }
 }

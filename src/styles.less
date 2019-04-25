@@ -29,3 +29,16 @@ h2 {
 h3 {
   font-size: 2rem;
 }
+
+a {
+  color: @app-accent-color;
+  text-decoration: none;
+
+  &:hover {
+    color: darken(@app-accent-color, 15%);
+  }
+
+  &:visited {
+    color: @app-accent-color;
+  }
+}

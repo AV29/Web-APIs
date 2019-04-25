@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
 import './FaceDetection.less';
 
 const { faceDetection } = routesConfiguration;
 
 class FaceDetection extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.videoTrack = null;
     this.state = {
-      faceAppeared: null,
+      imageAppeared: null,
       videoPlaying: false,
-      videoBoxBounds: {
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0
-      }
+      codes: [],
+      codesTop: 0
     };
   }
 
@@ -37,11 +33,11 @@ class FaceDetection extends React.Component {
     this.trash = trash;
   };
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this.inverval);
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (typeof window.FaceDetector === 'undefined') {
       alert('No face detection!');
       this.props.history.push('/');
@@ -99,7 +95,7 @@ class FaceDetection extends React.Component {
           const draggableItem = document.getElementById(s);
           if (event.target === this.trash) {
             draggableItem.parentElement.removeChild(draggableItem);
-            this.setState({ faceAppeared: null });
+            this.setState({ imageAppeared: null, codes: [], codesTop: 0 });
             document.querySelectorAll('.detected-face-box').forEach(el => el.parentElement.removeChild(el));
           } else {
             document.getElementById(s) && event.target.appendChild(document.getElementById(s));
@@ -119,7 +115,7 @@ class FaceDetection extends React.Component {
           image.id = `fileImg-${Date.now()}`;
           this.addListenersForDragging(image);
           event.target.appendChild(image);
-          this.setState({ faceAppeared: image });
+          this.setState({ imageAppeared: image });
         };
 
         reader.readAsDataURL(f);
@@ -169,7 +165,7 @@ class FaceDetection extends React.Component {
   };
 
   detectBarcode = (target) => {
-    if (!this.state.faceAppeared) {
+    if (!target) {
       return;
     }
     this.barcodeDetector.detect(target)
@@ -180,7 +176,7 @@ class FaceDetection extends React.Component {
       });
   };
 
-  getOffsetsForMediaContainer(type) {
+  getOffsetsForMediaContainer (type) {
     const { top: topMediaContainer } = this.mediaContainer.getBoundingClientRect();
     const { left, top } = this.mediaContainer.querySelector(type).getBoundingClientRect();
 
@@ -190,7 +186,7 @@ class FaceDetection extends React.Component {
     };
   }
 
-  setFaceBoxStyles(boxElement, face, offsets) {
+  setFaceBoxStyles (boxElement, face, offsets) {
     const { width, height, top, left } = face.boundingBox;
     const { leftOffset, topOffset } = offsets;
     boxElement.style.cssText = `width: ${width}px; height: ${height}px; top: ${top + topOffset}px; left: ${left + leftOffset}px;`;
@@ -200,6 +196,15 @@ class FaceDetection extends React.Component {
     const offsets = this.getOffsetsForMediaContainer('video');
     faces.forEach(face => {
       this.setFaceBoxStyles(this.faceBox, face, offsets)
+    });
+  };
+
+  handleBarCodeDetection = codes => {
+    this.handleImageDetection(codes);
+    const codesTop = this.mediaContainer.querySelector('img').getBoundingClientRect().bottom + 10;
+    this.setState({
+      codes: [...codes],
+      codesTop
     });
   };
 
@@ -223,16 +228,18 @@ class FaceDetection extends React.Component {
     this.setState({ videoPlaying: false });
   };
 
-  renderButton() {
-    if (this.state.faceAppeared) {
+  renderButton () {
+    if (this.state.imageAppeared) {
       return (
-        <button
-          onClick={() => this.detectFaces(this.state.faceAppeared, this.handleImageDetection)}
-        >
-          Detect face/faces
-        </button>
+        <Fragment>
+          <button onClick={() => this.detectFaces(this.state.imageAppeared, this.handleImageDetection)}>
+            Detect face/faces
+          </button>
+          <button onClick={() => this.detectBarcode(this.state.imageAppeared)}>
+            Detect Code
+          </button>
+        </Fragment>
       );
-
     } else if (this.state.videoPlaying) {
       return <button onClick={this.stopVideo}>Stop Video</button>
     } else {
@@ -240,12 +247,7 @@ class FaceDetection extends React.Component {
     }
   }
 
-  handleBarCodeDetection = result => {
-
-    debugger;
-  };
-
-  render() {
+  render () {
     return (
       <div
         id="wrapper"
@@ -259,9 +261,6 @@ class FaceDetection extends React.Component {
           {
             this.renderButton()
           }
-          {
-            <button onClick={() => this.detectBarcode(this.state.faceAppeared)}>barcode</button>
-          }
         </div>
         <div ref={this._mediaContainer} className="media-container dropTarget">
           <video
@@ -270,12 +269,22 @@ class FaceDetection extends React.Component {
             autoPlay
           />
           {
-            (this.state.videoPlaying || this.state.faceAppeared) &&
+            (this.state.videoPlaying || this.state.imageAppeared) &&
             <div
               ref={this._faceBox}
               className="video-detected-face-box"
               style={{ display: this.state.videoPlaying ? 'block' : 'none' }}
             />
+          }
+          {
+            this.state.imageAppeared &&
+            <div className="codes" style={{top: this.state.codesTop}}>
+              {
+                this.state.codes.map((code, index) => (
+                  <a target="_blank" key={index} href={code.rawValue}> {code.rawValue}</a>
+                ))
+              }
+            </div>
           }
         </div>
         <div ref={this._trash} className="trash"
