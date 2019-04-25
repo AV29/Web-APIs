@@ -5,7 +5,7 @@ import './FaceDetection.less';
 const { faceDetection } = routesConfiguration;
 
 class FaceDetection extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.videoTrack = null;
@@ -37,17 +37,18 @@ class FaceDetection extends React.Component {
     this.trash = trash;
   };
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearInterval(this.inverval);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (typeof window.FaceDetector === 'undefined') {
       alert('No face detection!');
       this.props.history.push('/');
     } else {
       document.querySelectorAll('.dropTarget').forEach(this.addListenersForDropping);
       this.faceDetector = new window.FaceDetector();
+      this.barcodeDetector = new window.BarcodeDetector();
       this.addListenersForDropping(this.trash);
     }
   }
@@ -167,7 +168,19 @@ class FaceDetection extends React.Component {
       });
   };
 
-  getOffsetsForMediaContainer (type) {
+  detectBarcode = (target) => {
+    if (!this.state.faceAppeared) {
+      return;
+    }
+    this.barcodeDetector.detect(target)
+      .then(this.handleBarCodeDetection)
+      .catch(err => {
+        console.log('Handled Error', err);
+        this.stopVideo();
+      });
+  };
+
+  getOffsetsForMediaContainer(type) {
     const { top: topMediaContainer } = this.mediaContainer.getBoundingClientRect();
     const { left, top } = this.mediaContainer.querySelector(type).getBoundingClientRect();
 
@@ -177,7 +190,7 @@ class FaceDetection extends React.Component {
     };
   }
 
-  setFaceBoxStyles (boxElement, face, offsets) {
+  setFaceBoxStyles(boxElement, face, offsets) {
     const { width, height, top, left } = face.boundingBox;
     const { leftOffset, topOffset } = offsets;
     boxElement.style.cssText = `width: ${width}px; height: ${height}px; top: ${top + topOffset}px; left: ${left + leftOffset}px;`;
@@ -210,7 +223,7 @@ class FaceDetection extends React.Component {
     this.setState({ videoPlaying: false });
   };
 
-  renderButton () {
+  renderButton() {
     if (this.state.faceAppeared) {
       return (
         <button
@@ -227,7 +240,12 @@ class FaceDetection extends React.Component {
     }
   }
 
-  render () {
+  handleBarCodeDetection = result => {
+
+    debugger;
+  };
+
+  render() {
     return (
       <div
         id="wrapper"
@@ -240,6 +258,9 @@ class FaceDetection extends React.Component {
         <div className="controls">
           {
             this.renderButton()
+          }
+          {
+            <button onClick={() => this.detectBarcode(this.state.faceAppeared)}>barcode</button>
           }
         </div>
         <div ref={this._mediaContainer} className="media-container dropTarget">
