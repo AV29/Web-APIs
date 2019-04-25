@@ -20,10 +20,12 @@ button {
   border: 0;
   color: @app-bg-color;
   transition: @fast;
+
   &.secondary {
     color: @app-text-color;
     background-color: @app-bg-color;
     border: 1px solid @app-text-color;
+
     &:hover {
       background-color: darken(@app-bg-color, 10%);
     }
@@ -54,6 +56,12 @@ button {
 
   .app-title {
     color: @app-header-color;
+    transition: @fast;
+    display: inline-block;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &:hover {
