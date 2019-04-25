@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import webpack from 'webpack';
 import open from 'open';
-import config from '../webpack.config.js';
+import config from '../webpack.config.dev.js';
 import WebpackDevServer from 'webpack-dev-server';
 import { PORT, LOCALHOST_PATH, ENTRY_POINT } from './constants';
 import * as chalk from './chalkConfig';
