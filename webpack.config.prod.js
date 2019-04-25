@@ -4,6 +4,8 @@ import { PRODUCTION } from './tools/constants';
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production')
 };
@@ -37,7 +39,13 @@ module.exports = {
       filename: 'index.html',
       favicon: 'favicon.ico',
       template: './tools/prod.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: './assets',
+        to: __dirname + '/dist/assets'
+      }
+    ])
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.css', '.less']

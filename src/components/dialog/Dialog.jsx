@@ -129,7 +129,7 @@ class Dialog extends Component {
           this.state.chosenValue &&
           <img
             className="result"
-            src={`src/assets/${this.state.chosenValue.toLowerCase()}.jpg`}
+            src={`assets/${this.state.chosenValue.toLowerCase()}.jpg`}
             alt="cover"
           />
         }
