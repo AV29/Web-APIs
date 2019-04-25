@@ -7,7 +7,7 @@
     "start": "babel-node tools/serverDev.js",
     "prebuild": "rimraf ./dist && mkdir dist",
     "build": "babel-node tools/build.js",
-    "postbuild": "babel-node tools/serverProd.js"
+    "prod": "npm run build && babel-node tools/serverProd.js"
   },
   "author": "Anton Vlasik",
   "license": "ISC",
