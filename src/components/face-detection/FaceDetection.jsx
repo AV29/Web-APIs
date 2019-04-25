@@ -167,7 +167,7 @@ class FaceDetection extends React.Component {
       });
   };
 
-  getOffsetsForMediaContainer(type) {
+  getOffsetsForMediaContainer (type) {
     const { top: topMediaContainer } = this.mediaContainer.getBoundingClientRect();
     const { left, top } = this.mediaContainer.querySelector(type).getBoundingClientRect();
 
@@ -177,9 +177,9 @@ class FaceDetection extends React.Component {
     };
   }
 
-  setFaceBoxStyles(boxElement, face, offsets) {
+  setFaceBoxStyles (boxElement, face, offsets) {
     const { width, height, top, left } = face.boundingBox;
-    const {leftOffset, topOffset} = offsets;
+    const { leftOffset, topOffset } = offsets;
     boxElement.style.cssText = `width: ${width}px; height: ${height}px; top: ${top + topOffset}px; left: ${left + leftOffset}px;`;
   }
 
@@ -210,6 +210,23 @@ class FaceDetection extends React.Component {
     this.setState({ videoPlaying: false });
   };
 
+  renderButton () {
+    if (this.state.faceAppeared) {
+      return (
+        <button
+          onClick={() => this.detectFaces(this.state.faceAppeared, this.handleImageDetection)}
+        >
+          Detect face/faces
+        </button>
+      );
+
+    } else if (this.state.videoPlaying) {
+      return <button onClick={this.stopVideo}>Stop Video</button>
+    } else {
+      return <button onClick={this.startVideo}>Start Video</button>;
+    }
+  }
+
   render () {
     return (
       <div
@@ -222,13 +239,7 @@ class FaceDetection extends React.Component {
         <h2>{faceDetection.title}</h2>
         <div className="controls">
           {
-            this.state.videoPlaying
-              ? <button onClick={this.stopVideo}>Stop Video</button>
-              : <button onClick={this.startVideo}>Start Video</button>
-          }
-          {
-            this.state.faceAppeared &&
-            <button onClick={() => this.detectFaces(this.state.faceAppeared, this.handleImageDetection)}>DETECT FACE</button>
+            this.renderButton()
           }
         </div>
         <div ref={this._mediaContainer} className="media-container dropTarget">
