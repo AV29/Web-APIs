@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
-import './FaceDetection.less';
+import './ShapeDetection.less';
 
-const { faceDetection } = routesConfiguration;
+const { shapeDetection } = routesConfiguration;
 
 class FaceDetection extends React.Component {
   constructor (props) {
@@ -251,12 +251,12 @@ class FaceDetection extends React.Component {
     return (
       <div
         id="wrapper"
-        className="pageWrapper faceDetection"
+        className="pageWrapper shapeDetection"
       >
         <h3 className="pageIdentificator">
-          {faceDetection.title}
+          {shapeDetection.title}
         </h3>
-        <h2>{faceDetection.title}</h2>
+        <h2>{shapeDetection.title}</h2>
         <div className="controls">
           {
             this.renderButton()

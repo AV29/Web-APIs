@@ -7,13 +7,13 @@ import PageVisibility from './page-visibility/PageVisibility';
 import DragAndDrop from './drag-and-drop/DragAndDrop';
 import Media from './media/Media';
 import Dialog from './dialog/Dialog';
-import FaceDetection from './face-detection/FaceDetection';
+import ShapeDetection from './shape-detection/ShapeDetection';
 import NetworkInformation from './network-information/NetworkInformation';
 import Speech from './speech/Speech';
 import ExtendedRoute from './common/extended-route/ExtendedRoute';
 import './App.less';
 
-const { speechMain, pageVisibility, dragAndDrop, media, root, dialog, faceDetection, networkInfo } = routesConfiguration;
+const { speechMain, pageVisibility, dragAndDrop, media, root, dialog, shapeDetection, networkInfo } = routesConfiguration;
 
 const startStep = 0;
 
@@ -104,8 +104,8 @@ class App extends Component {
             />
             <Route
               exact
-              path={faceDetection.path}
-              component={FaceDetection}
+              path={shapeDetection.path}
+              component={ShapeDetection}
             />
           </Switch>
         </div>

@@ -46,9 +46,9 @@ export default {
     title: 'Network Information',
     step: 5
   },
-  faceDetection: {
-    path: '/face-detection',
-    title: 'Face Detection',
+  shapeDetection: {
+    path: '/shape-detection',
+    title: 'Shape Detection',
     step: 6
   }
 };
