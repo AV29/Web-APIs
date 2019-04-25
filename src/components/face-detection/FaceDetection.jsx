@@ -286,9 +286,11 @@ class FaceDetection extends React.Component {
               }
             </div>
           }
+          <div ref={this._trash}
+               className="trash"
+               style={{ visibility: this.state.videoPlaying ? 'hidden' : 'visible' }}
+          />
         </div>
-        <div ref={this._trash} className="trash"
-             style={{ visibility: this.state.videoPlaying ? 'hidden' : 'visible' }}/>
       </div>
     );
   }
