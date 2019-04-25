@@ -4,7 +4,10 @@
   "description": "Demonstration of interesting web apis",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node tools/serverDev.js"
+    "start": "babel-node tools/serverDev.js",
+    "prebuild": "rimraf ./dist && mkdir dist",
+    "build": "babel-node tools/build.js",
+    "postbuild": "babel-node tools/serverProd.js"
   },
   "author": "Anton Vlasik",
   "license": "ISC",
@@ -27,6 +30,7 @@
     "babel-preset-stage-1": "~6.24.1",
     "babel-register": "~6.26.0",
     "chalk": "^2.4.1",
+    "compression": "^1.7.4",
     "css-loader": "^2.1.1",
     "express": "~4.16.2",
     "extract-text-webpack-plugin": "~4.0.0-beta.0",
@@ -39,6 +43,7 @@
     "postcss-flexbugs-fixes": "~3.2.0",
     "postcss-loader": "~2.0.8",
     "prop-types": "~15.6.0",
+    "rimraf": "^2.6.3",
     "style-loader": "~0.19.1",
     "svg-inline-loader": "^0.8.0",
     "url-loader": "^1.1.2",
