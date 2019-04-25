@@ -14,6 +14,24 @@ button {
   outline: 0;
   min-width: 100px;
   margin: 5px;
+  padding: 10px 5px;
+  cursor: pointer;
+  background-color: @app-accent-color;
+  border: 0;
+  color: @app-bg-color;
+  transition: @fast;
+  &.secondary {
+    color: @app-text-color;
+    background-color: @app-bg-color;
+    border: 1px solid @app-text-color;
+    &:hover {
+      background-color: darken(@app-bg-color, 10%);
+    }
+  }
+
+  &:hover {
+    background-color: darken(@app-accent-color, 10%);
+  }
 }
 
 .pageWrapper {
@@ -32,7 +50,7 @@ button {
   width: 100%;
   text-align: center;
   padding: 20px 0;
-  background-color: @app-color;
+  background-color: @app-bg-color;
 
   .app-title {
     color: @app-header-color;
@@ -46,10 +64,11 @@ button {
 .sectionTitle {
   padding: 10px 0;
   cursor: pointer;
+  opacity: .3;
 
   &:hover {
     transition: @transition;
-    color: #288dc8;
+    opacity: 1;
   }
 }
 

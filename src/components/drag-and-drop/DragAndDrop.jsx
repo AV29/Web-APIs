@@ -133,7 +133,7 @@ class DragAndDrop extends Component {
           <img
             id="draggable3"
             className="draggableItem draggableImage"
-            src="https://img.icons8.com/ios/420/javascript.png"
+            src={"src/assets/angular.svg"}
             alt="image"
           />
         </div>

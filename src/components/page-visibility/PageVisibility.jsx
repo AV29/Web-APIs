@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
+import visibilityChangeHandler from './visibilityChangeHandler';
 import './PageVisibility.less';
 
 const { pageVisibility } = routesConfiguration;
@@ -35,12 +36,7 @@ class PageVisibility extends Component {
   }
 
   handleVisibilityChange () {
-    this.setState(({ visibilityState }) => ({ visibilityState: visibilityState.concat(document.visibilityState) }));
-    if (!document.hidden) {
-      this.videoElement.pause();
-    } else {
-      this.videoElement.play();
-    }
+    return visibilityChangeHandler(this);
   }
 
   subscribe () {
@@ -65,31 +61,32 @@ class PageVisibility extends Component {
           {pageVisibility.title}
         </h3>
         <h2>{pageVisibility.title}</h2>
-        <div
-          className="stateContainer"
-        >
-          {
-            this.state.visibilityState.map((state, index) => {
-              const textDecoration = stateCount > 2 && index < stateCount - 2 ? 'line-through' : 'none';
-              return (
-                <strong
-                  key={index}
-                  className={`state ${index >= stateCount - 2 && 'marked-state'}`}
-                  style={{ textDecoration }}
-                >
-                  {state}
-                  {index === stateCount - 1 &&
-                  <span style={{ color: 'darkgreen', fontSize: '15px' }}>(last step)</span>}
-                  {index === stateCount - 2 &&
-                  <span style={{ color: 'darkred', fontSize: '15px' }}>(previous step)</span>}
-                </strong>
-              );
-            })}
-        </div>
-        <main>
+        <div className="contentWrapper">
+          <div
+            className="stateContainer"
+          >
+            {
+              this.state.visibilityState.map((state, index) => {
+                const textDecoration = stateCount > 2 && index < stateCount - 2 ? 'line-through' : 'none';
+                return (
+                  <strong
+                    key={index}
+                    className={`state ${index >= stateCount - 2 && 'marked-state'}`}
+                    style={{ textDecoration }}
+                  >
+                    {`${index + 1}) `}
+                    {state}
+                    {index === stateCount - 1 &&
+                    <span style={{ color: 'darkgreen', fontSize: '15px' }}>(last step)</span>}
+                    {index === stateCount - 2 &&
+                    <span style={{ color: 'darkred', fontSize: '15px' }}>(previous step)</span>}
+                  </strong>
+                );
+              })}
+          </div>
           <video
             ref={video => this.videoElement = video}
-            width="1480"
+            width="1190"
             height="360"
           >
             <source
@@ -112,7 +109,7 @@ class PageVisibility extends Component {
             />
             <p>Oops!</p>
           </video>
-        </main>
+        </div>
       </div>
     );
   }

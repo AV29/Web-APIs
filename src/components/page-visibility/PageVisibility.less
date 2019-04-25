@@ -6,9 +6,15 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    position: fixed;
-    left: 60px;
-    top: 140px;
+    height: 300px;
+    overflow: auto;
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    padding: 10px;
+  }
+
+  video {
+    flex: 1
   }
 
   .state {
@@ -30,5 +36,11 @@
         color: #ff6347;
       }
     }
+  }
+
+  .contentWrapper {
+    display: flex;
+    width: 100%;
+    padding: 20px;
   }
 }

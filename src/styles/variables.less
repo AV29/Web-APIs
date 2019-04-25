@@ -9,8 +9,10 @@
 @bezier: cubic-bezier(0.15, 0.9, 0.5, 1);
 @transition: all @slow @bezier;
 
-@app-color: lightcyan;
-@app-header-color: darkgoldenrod;
+@app-bg-color: #ffffff;;
+@app-text-color: #666666;
+@app-accent-color: #288dc8;
+@app-header-color: @app-accent-color;
 @app-section-title-base-color: @app-header-color;
 
-@faded-title-color: darken(desaturate(@app-color, 50%), 10%);
+@faded-title-color: darken(desaturate(@app-bg-color, 50%), 10%);

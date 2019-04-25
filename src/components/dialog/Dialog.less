@@ -23,9 +23,7 @@
   }
 
   .result {
-    font-size: 100px;
-    font-weight: 600;
-    margin-top: 100px;
+    margin-top: 20px;
   }
 
   .dialogForm {
@@ -49,6 +47,7 @@
       .innerWrapper {
         display: flex;
         flex-direction: column;
+        padding: 20px;
       }
     }
   }
@@ -57,23 +56,6 @@
     padding: 10px;
     text-align: right;
     background-color: #f1f0ec;
-  }
-
-  button {
-    padding: 10px 15px;
-    margin: 0 0 0 5px;
-    color: ivory;
-    background-color: #71706d;
-
-    &.secondary {
-      color: ivory;
-      background-color: tomato;
-    }
-
-    &.primary {
-      color: ivory;
-      background-color: forestgreen;
-    }
   }
 
   .checkboxInput {
@@ -134,17 +116,17 @@
       input[type="radio"] {
         &:focus + label {
           .toggler {
-            box-shadow: 0 0 1px #71706d;
+            box-shadow: 0 0 1px @app-accent-color;
           }
         }
 
         &:checked + label {
           .toggler {
-            background-color: #71706d;
+            background-color: @app-accent-color;
 
             &:before {
               transform: translateX(100%) translateX(-8px);
-              border-color: #71706d;
+              border-color: @app-accent-color;
               content: "";
               background-color: ivory;
             }

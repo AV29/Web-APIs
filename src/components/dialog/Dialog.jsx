@@ -9,11 +9,18 @@ class Dialog extends Component {
     super(props);
 
     this.state = {
-      chosenValue: 'Not chosen',
+      chosenValue: null,
       currentValue: null
     };
 
-    this.values = ['Watchmen', 'Guardians of the Galaxy', 'will decide later'];
+    this.values = [
+      'Watchmen',
+      'Guardians of the Galaxy',
+      'Trainspotting',
+      'Apocalypse Now',
+      'Pulp Fiction',
+      'Lost in Translation'
+    ];
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -62,7 +69,7 @@ class Dialog extends Component {
           className="browserDialog"
           ref={dialog => this.dialog = dialog}
         >
-          <h3 className="dialogHeader">Choose an option</h3>
+          <h3 className="dialogHeader">Best soundtrack ever ?</h3>
           <form
             method="dialog"
             className="dialogForm"
@@ -118,7 +125,14 @@ class Dialog extends Component {
           </form>
         </dialog>
         <button onClick={this.handleOpenModal}>Press me!</button>
-        <h2 className="result">{this.state.chosenValue}</h2>
+        {
+          this.state.chosenValue &&
+          <img
+            className="result"
+            src={`src/assets/${this.state.chosenValue.toLowerCase()}.jpg`}
+            alt="cover"
+          />
+        }
       </div>
     );
   }
