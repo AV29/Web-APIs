@@ -1,33 +1,45 @@
 @import '../../styles/variables';
 @import '../../styles/animation';
 
+
 .directionsHint {
-  animation: pulse;
-  animation-iteration-count: infinite;
-  animation-duration: 1.7s;
-  font-size: 2rem;
-  width: 50px;
-  height: 60px;
   position: fixed;
   top: 10px;
   right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: not-allowed;
+  color: tint(@app-text-color, 40%);
 
-  &.up {
-    svg g[arrowDirection = "up"] {
-      fill: @app-accent-color;
+  .directionsHintIcon {
+    animation: pulse;
+    animation-iteration-count: infinite;
+    animation-duration: 1.7s;
+    width: 50px;
+    height: 45px;
+    margin-left: 10px;
+
+    &.up {
+      svg g[arrowDirection = "up"] {
+        fill: @app-accent-color;
+      }
     }
-  }
 
-  &.down {
-    svg g[arrowDirection = "down"] {
-      fill: @app-accent-color;
+    &.down {
+      svg g[arrowDirection = "down"] {
+        fill: @app-accent-color;
+      }
     }
-  }
 
-  svg {
-    fill: @app-text-color;
+    svg {
+      fill: tint(@app-text-color, 40%);
+    }
   }
 }
+
 
 
 

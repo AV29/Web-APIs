@@ -12,10 +12,13 @@ const getDirections = (currentStep, totalSteps) => {
   }
 };
 
-function DirectionsHint ({ currentStep, totalSteps }) {
+function DirectionsHint({ currentStep, totalSteps }) {
   return (
-    <div className={[...getDirections(currentStep, totalSteps), 'directionsHint'].join(' ')}>
-      <span dangerouslySetInnerHTML={{ __html: arrows }}/>
+    <div className="directionsHint">
+      <span>use</span>
+      <div className={[...getDirections(currentStep, totalSteps), 'directionsHintIcon'].join(' ')}
+            dangerouslySetInnerHTML={{ __html: arrows }}
+      />
     </div>
   );
 }

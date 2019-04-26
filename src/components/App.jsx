@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import routesConfiguration from '../../routing/routesConfiguration';
-import ContentList from './ContentList';
-import PageVisibility from '../page-visibility/PageVisibility';
-import DragAndDrop from '../drag-and-drop/DragAndDrop';
-import Media from '../media/Media';
-import Dialog from '../dialog/Dialog';
-import ShapeDetection from '../shape-detection/ShapeDetection';
-import NetworkInformation from '../network-information/NetworkInformation';
-import Speech from '../speech/Speech';
-import ExtendedRoute from '../common/extended-route/ExtendedRoute';
-import DirectionsHint from './DirectionsHint';
+import routesConfiguration from '../routing/routesConfiguration';
+import ContentList from './utils/ContentList';
+import PageVisibility from './page-visibility/PageVisibility';
+import DragAndDrop from './drag-and-drop/DragAndDrop';
+import Media from './media/Media';
+import Dialog from './dialog/Dialog';
+import ShapeDetection from './shape-detection/ShapeDetection';
+import NetworkInformation from './network-information/NetworkInformation';
+import Speech from './speech/Speech';
+import ExtendedRoute from './common/extended-route/ExtendedRoute';
+import Header from './utils/Header';
 import './App.less';
 
 const { speechMain, pageVisibility, dragAndDrop, media, root, dialog, shapeDetection, networkInfo } = routesConfiguration;
@@ -27,7 +27,7 @@ class App extends Component {
     return Object.keys(routesConfiguration).filter(key => routesConfiguration[key].step !== undefined).length;
   };
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.menuListSize = App.getMenuListSize();
     this.state = {
@@ -35,11 +35,11 @@ class App extends Component {
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
@@ -51,35 +51,10 @@ class App extends Component {
     this.state.step > startStep && which === 38 && this.setState(({ step }) => ({ step: step - 1 }));
   };
 
-  redirect = path => {
-    this.props.history.push(path);
-  };
-
-  getHeader = () => {
-    const isRootLocation = this.props.location.pathname === this.props.match.path;
-    return (
-      <div className="header">
-        <h3
-          className={`app-title ${!isRootLocation ? 'withHintHome' : ''}`}
-          onClick={() => !isRootLocation && this.redirect(root.path)}
-        >
-          {isRootLocation ? root.title : '...home'}
-        </h3>
-        {
-          isRootLocation &&
-          <DirectionsHint
-            currentStep={this.state.step}
-            totalSteps={this.menuListSize}
-          />
-        }
-      </div>
-    );
-  };
-
-  render () {
+  render() {
     return (
       <div className="webApiDemoContainer">
-        {this.getHeader()}
+        <Header currentStep={this.state.step} totalSteps={this.menuListSize}/>
         <div className="contentWrapper">
           <Switch>
             <ExtendedRoute
