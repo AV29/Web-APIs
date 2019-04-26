@@ -1,0 +1,42 @@
+@import '../../styles/variables';
+
+.directionsHint {
+  animation: pulse;
+  animation-iteration-count: infinite;
+  animation-duration: 1.7s;
+  font-size: 2rem;
+  width: 50px;
+  height: 60px;
+  margin-left: 20px;
+
+  &.up {
+    svg g[arrowDirection = "up"] {
+      fill: @app-accent-color;
+    }
+  }
+
+  &.down {
+    svg g[arrowDirection = "down"] {
+      fill: @app-accent-color;
+    }
+  }
+
+  svg {
+    fill: @app-text-color;
+  }
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.97);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    transform: scale(0.97);
+  }
+}

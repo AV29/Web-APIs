@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import routesConfiguration from '../routing/routesConfiguration';
+import routesConfiguration from '../../routing/routesConfiguration';
 import ContentList from './ContentList';
-import PageVisibility from './page-visibility/PageVisibility';
-import DragAndDrop from './drag-and-drop/DragAndDrop';
-import Media from './media/Media';
-import Dialog from './dialog/Dialog';
-import ShapeDetection from './shape-detection/ShapeDetection';
-import NetworkInformation from './network-information/NetworkInformation';
-import Speech from './speech/Speech';
-import ExtendedRoute from './common/extended-route/ExtendedRoute';
+import PageVisibility from '../page-visibility/PageVisibility';
+import DragAndDrop from '../drag-and-drop/DragAndDrop';
+import Media from '../media/Media';
+import Dialog from '../dialog/Dialog';
+import ShapeDetection from '../shape-detection/ShapeDetection';
+import NetworkInformation from '../network-information/NetworkInformation';
+import Speech from '../speech/Speech';
+import ExtendedRoute from '../common/extended-route/ExtendedRoute';
+import DirectionsHint from './DirectionsHint';
 import './App.less';
 
 const { speechMain, pageVisibility, dragAndDrop, media, root, dialog, shapeDetection, networkInfo } = routesConfiguration;
@@ -64,6 +65,7 @@ class App extends Component {
           >
             {root.title}
           </h3>
+          <DirectionsHint currentStep={this.state.step} totalSteps={this.menuListSize}/>
         </div>
         <div className="contentWrapper">
           <Switch>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { object, number } from 'prop-types';
 import classNames from 'classnames';
-import routesConfiguration from '../routing/routesConfiguration';
+import routesConfiguration from '../../routing/routesConfiguration';
 import './ContentList.less';
 
 class ContentList extends Component {
