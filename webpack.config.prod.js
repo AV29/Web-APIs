@@ -44,6 +44,10 @@ module.exports = {
       {
         from: './assets',
         to: __dirname + '/dist/assets'
+      },
+      {
+        from: './netlify',
+        to: __dirname + '/dist/'
       }
     ])
   ],
