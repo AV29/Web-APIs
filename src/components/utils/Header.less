@@ -13,24 +13,27 @@
     color: @app-header-color;
     display: inline-block;
     cursor: default;
+  }
 
-    &.withHintHome {
-      border: 1px solid white;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      color: @app-text-color;
-      animation: shadowpulse infinite 2s;
-      font-size: 1.5rem;
+  .homeIcon {
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 20px;
+    color: @app-text-color;
+    border-bottom: 3px solid tint(@app-text-color, 40%);
+    animation: shadowpulse infinite 2s;
 
-      &:hover {
-        animation: none;
-        box-shadow: 0 0 20px @app-text-color;
-      }
+    &:hover {
+      animation: paused;
+      box-shadow: 0 0 20px @app-text-color;
+    }
 
-      .homeIcon {
-        width: 20px;
-        height: 20px;
+    svg {
+      width: 20px;
+      height: 20px;
+
+      g {
+        fill: @app-text-color;
       }
     }
   }
