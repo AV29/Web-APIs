@@ -1,0 +1,33 @@
+@import './variables';
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.97);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+  100% {
+    transform: scale(0.97);
+  }
+}
+
+
+@keyframes shadowpulse {
+  0% {
+    transform: translate(0, 0);
+    box-shadow: 0 0 20px @app-accent-color;
+  }
+
+  50% {
+    transform: translate(0, -2px);
+    box-shadow: 0 5px 30px @app-accent-color;
+  }
+
+  100% {
+    transform: translate(0, 0);
+    box-shadow: 0 0 20px @app-accent-color;
+  }
+}

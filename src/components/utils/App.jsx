@@ -55,18 +55,31 @@ class App extends Component {
     this.props.history.push(path);
   };
 
+  getHeader = () => {
+    const isRootLocation = this.props.location.pathname === this.props.match.path;
+    return (
+      <div className="header">
+        <h3
+          className={`app-title ${!isRootLocation ? 'withHintHome' : ''}`}
+          onClick={() => !isRootLocation && this.redirect(root.path)}
+        >
+          {isRootLocation ? root.title : '...home'}
+        </h3>
+        {
+          isRootLocation &&
+          <DirectionsHint
+            currentStep={this.state.step}
+            totalSteps={this.menuListSize}
+          />
+        }
+      </div>
+    );
+  };
+
   render () {
     return (
       <div className="webApiDemoContainer">
-        <div className="header">
-          <h3
-            className="app-title"
-            onClick={() => this.redirect(root.path)}
-          >
-            {root.title}
-          </h3>
-          <DirectionsHint currentStep={this.state.step} totalSteps={this.menuListSize}/>
-        </div>
+        {this.getHeader()}
         <div className="contentWrapper">
           <Switch>
             <ExtendedRoute
