@@ -17,7 +17,7 @@ function DirectionsHint({ currentStep, totalSteps }) {
     <div className="directionsHint">
       <span>use</span>
       <div className={[...getDirections(currentStep, totalSteps), 'directionsHintIcon'].join(' ')}
-            dangerouslySetInnerHTML={{ __html: arrows }}
+           dangerouslySetInnerHTML={{ __html: arrows }}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import DirectionsHint from './DirectionsHint';
+import home from '../../../assets/home.svg'
 import routesConfiguration from '../../routing/routesConfiguration';
 import './Header.less';
 
@@ -14,7 +15,11 @@ function Header(props) {
         className={`appTitle ${!isRootLocation ? 'withHintHome' : ''}`}
         onClick={() => !isRootLocation && props.history.push(root.path)}
       >
-        {isRootLocation ? root.title : '...home'}
+        {
+          isRootLocation
+          ? root.title
+          : <div  className="homeIcon" dangerouslySetInnerHTML={{ __html: home }}       />
+        }
       </h2>
       {
         isRootLocation &&
