@@ -12,3 +12,23 @@
   flex: 1;
   background-color: @app-bg-color;
 }
+
+.app-title {
+  color: @app-header-color;
+  display: inline-block;
+  cursor: default;
+
+  &.withHintHome {
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: @app-text-color;
+    animation: shadowpulse infinite 2s;
+
+    &:hover {
+      animation: none;
+      box-shadow: 0 0 20px @app-text-color;
+    }
+  }
+}
