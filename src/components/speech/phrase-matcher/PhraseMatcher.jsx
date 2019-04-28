@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import routesConfiguration from '../../../routing/routesConfiguration';
 import './PhraseMatcher.less';
 
-const { phraseMatcher } = routesConfiguration;
-
 class PhraseMatcher extends Component {
   constructor (props) {
     super(props);
@@ -38,9 +36,9 @@ class PhraseMatcher extends Component {
     this.speechRecognitionList = new SpeechGrammarList();
   }
 
-  randomPhrase = () => {
-    return Math.floor(Math.random() * this.phrases.length);
-  };
+  componentWillUnmount () {
+    this.resetTest();
+  }
 
   resetTest = () => {
     this.recognition.stop();
@@ -54,7 +52,7 @@ class PhraseMatcher extends Component {
   };
 
   testSpeech = () => {
-    const phrase = this.phrases[this.randomPhrase()];
+    const phrase = this.phrases[Math.floor(Math.random() * this.phrases.length)];
 
     const grammar = `#JSGF V1.0; grammar phrase; public <phrase> = ${phrase}`;
     this.speechRecognitionList.addFromString(grammar, 1);
@@ -155,7 +153,7 @@ class PhraseMatcher extends Component {
   render () {
     return (
       <div className="pageWrapper phraseMatcherWrapper">
-        <h2>{phraseMatcher.title}</h2>
+        <h2>{routesConfiguration.phraseMatcher.title}</h2>
         <button
           onClick={this.testSpeech}
           disabled={this.state.recognitionInProgress}

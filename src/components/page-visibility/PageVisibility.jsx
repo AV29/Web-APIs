@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import routesConfiguration from '../../routing/routesConfiguration';
-import visibilityChangeHandler from './visibilityChangeHandler';
+import { getFormattedTime } from './getFormattedTime';
 import './PageVisibility.less';
 
 const { pageVisibility } = routesConfiguration;
@@ -11,7 +11,10 @@ class PageVisibility extends Component {
 
     this.videoElement = null;
     this.state = {
-      visibilityState: [document.visibilityState]
+      visibilityState: [{
+        state: document.visibilityState,
+        time: getFormattedTime(new Date())
+      }]
     };
 
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -20,11 +23,11 @@ class PageVisibility extends Component {
   }
 
   componentDidMount () {
-    this.subscribe();
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
   }
 
   componentWillUnmount () {
-    this.unsubscribe();
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
   }
 
   handlePlayVideo () {
@@ -36,57 +39,49 @@ class PageVisibility extends Component {
   }
 
   handleVisibilityChange () {
-    return visibilityChangeHandler(this);
-  }
-
-  subscribe () {
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    this.videoElement.addEventListener('pause', this.handlePauseVideo);
-    this.videoElement.addEventListener('play', this.handlePlayVideo);
-  }
-
-  unsubscribe () {
-    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-    this.videoElement.removeEventListener('pause', this.handlePauseVideo);
-    this.videoElement.removeEventListener('play', this.handlePlayVideo);
+    this.setState(
+      ({ visibilityState }) => ({
+        visibilityState: visibilityState.concat({
+          state: document.visibilityState,
+          time: getFormattedTime(new Date())
+        })
+      }),
+      () => {
+        document.hidden
+          ? this.videoElement.pause()
+          : this.videoElement.play().catch(console.log);
+      }
+    );
   }
 
   render () {
     const stateCount = this.state.visibilityState.length;
     return (
       <div className="pageWrapper pageVisibility">
-        <h3
-          className="pageIdentificator"
-        >
-          {pageVisibility.title}
-        </h3>
+        <h3 className="pageIdentificator">{pageVisibility.title}</h3>
         <h2>{pageVisibility.title}</h2>
         <div className="contentWrapper">
-          <div
-            className="stateContainer"
-          >
+          <div className="stateContainer">
             {
-              this.state.visibilityState.map((state, index) => {
-                const textDecoration = stateCount > 2 && index < stateCount - 2 ? 'line-through' : 'none';
-                return (
-                  <strong
-                    key={index}
-                    className={`state ${index >= stateCount - 2 && 'marked-state'}`}
-                    style={{ textDecoration }}
-                  >
-                    {`${index + 1}) `}
-                    {state}
-                    {index === stateCount - 1 &&
-                    <span style={{ color: 'darkgreen', fontSize: '15px' }}>(last step)</span>}
-                    {index === stateCount - 2 &&
-                    <span style={{ color: 'darkred', fontSize: '15px' }}>(previous step)</span>}
-                  </strong>
-                );
-              })}
+              this.state.visibilityState.map((data, index) => (
+                <strong
+                  key={index}
+                  className={`state ${index >= stateCount - 2 ? 'markedState' : ''}`}
+                >
+                  {data.state}
+                  {index === stateCount - 1 && <span className="current">(curr)</span>}
+                  {index === stateCount - 2 && <span className="previous">(prev)</span>}
+                  <span className="time">{data.time}</span>
+                </strong>
+              ))}
           </div>
           <video
+            onPause={this.handlePauseVideo}
+            onPlay={this.handlePlayVideo}
+            autoPlay
+            controls
             ref={video => this.videoElement = video}
-            width="1190"
+            width="480"
             height="360"
           >
             <source
