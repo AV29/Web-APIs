@@ -28,6 +28,7 @@ class PageVisibility extends Component {
 
   componentWillUnmount () {
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    document.title = 'WEB API Demo';
   }
 
   handlePlayVideo () {
