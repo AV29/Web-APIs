@@ -16,6 +16,7 @@ class Media extends Component {
     const stopVideoButton = document.querySelector('#stopAudio');
     const canvas = document.getElementById('canvas');
     const takePicture = document.getElementById('takePicture');
+    const removePicture = document.getElementById('removePicture');
 
     let videoTrack = null;
     let streaming = false;
@@ -35,10 +36,8 @@ class Media extends Component {
     enumerateButton.addEventListener('click', enumerateDevices);
     startButton.addEventListener('click', startStream);
     stopVideoButton.addEventListener('click', stopVideoStream);
-    takePicture.addEventListener('click', function (ev) {
-      takepicture();
-      ev.preventDefault();
-    }, false);
+    takePicture.addEventListener('click', takepicture);
+    removePicture.addEventListener('click', removepicture);
 
     function enumerateDevices () {
       navigator.mediaDevices.ondevicechange = handleDeviceChange;
@@ -63,11 +62,13 @@ class Media extends Component {
 
       videoTrack = null;
       videoElement.srcObject = null;
+      startButton.disabled = false;
       videoElement.style.display = 'none';
     }
 
     function applyStream (stream) {
       videoElement.srcObject = stream;
+      startButton.disabled = true;
       getMediaTracks(stream);
     }
 
@@ -111,6 +112,10 @@ class Media extends Component {
       }
     }
 
+    function removepicture () {
+      canvas.style.display = 'none';
+    }
+
     videoElement.addEventListener('canplay', () => {
       if (!streaming) {
         height = videoElement.videoHeight / (videoElement.videoWidth / width);
@@ -126,17 +131,16 @@ class Media extends Component {
         <h2>{media.title}</h2>
         <div className="controls">
           <button id="start">Start Stream</button>
+          <button id="stopAudio">Stop Stream</button>
           <button id="enumerate">Get Devices</button>
+          <button id="takePicture">Take photo</button>
+          <button id="removePicture">Remove Photo</button>
         </div>
         <div className="mediaWrapper">
           <div className="streamWrapper">
             <video id="video" width="480" height="360" autoPlay style={{ display: 'none' }}/>
           </div>
           <canvas id="canvas" style={{ display: 'none' }}/>
-        </div>
-        <div className="controls">
-          <button id="stopAudio">Stop Video</button>
-          <button id="takePicture">Take photo</button>
         </div>
         <div className="devicesInfo">
           <div className="deviceList">
