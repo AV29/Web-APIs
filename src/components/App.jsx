@@ -16,7 +16,11 @@ import './App.less';
 
 const { speechMain, pageVisibility, dragAndDrop, media, root, dialog, shapeDetection, networkInfo } = routesConfiguration;
 
-const startStep = 0;
+const START_STEP = 0;
+
+const getLastStep = () => {
+  return Number(localStorage.getItem('lastDemoStep')) || START_STEP;
+};
 
 class App extends Component {
   static propTypes = {
@@ -27,19 +31,19 @@ class App extends Component {
     return Object.keys(routesConfiguration).filter(key => routesConfiguration[key].step !== undefined).length;
   };
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.menuListSize = App.getMenuListSize();
     this.state = {
-      step: startStep
+      step: getLastStep()
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
@@ -47,11 +51,17 @@ class App extends Component {
     if ((which !== 38 && which !== 40) || this.props.location.pathname !== root.path) {
       return;
     }
-    this.state.step < this.menuListSize && which === 40 && this.setState(({ step }) => ({ step: step + 1 }));
-    this.state.step > startStep && which === 38 && this.setState(({ step }) => ({ step: step - 1 }));
+    const { step } = this.state;
+    step < this.menuListSize && which === 40 && this.changeStep(step + 1);
+    step > START_STEP && which === 38 && this.changeStep(step - 1);
   };
 
-  render() {
+  changeStep = (nextStep) => {
+    this.setState({ step: nextStep });
+    localStorage.setItem('lastDemoStep', nextStep);
+  };
+
+  render () {
     return (
       <div className="webApiDemoContainer">
         <Header currentStep={this.state.step} totalSteps={this.menuListSize}/>
