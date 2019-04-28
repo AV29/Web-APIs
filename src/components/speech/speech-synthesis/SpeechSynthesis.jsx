@@ -7,37 +7,30 @@ const { speechSynthesis } = routesConfiguration;
 class SpeechSynthesis extends Component {
   constructor (props) {
     super(props);
-    this.voices = [];
     this.synth = window.speechSynthesis;
 
     this.state = {
       pitch: 1,
       rate: 1,
       text: '',
-      voice: ''
+      voice: '',
+      voices: this.synth.getVoices()
     };
 
-    this.getVoices();
-    speechSynthesis.onvoiceschanged = this.getVoices;
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
-    this.speak = this.speak.bind(this);
+    this.synth.onvoiceschanged = () => {
+      this.setState({ voices: window.speechSynthesis.getVoices() });
+    };
   }
 
-  getVoices () {
-    this.voices = this.synth.getVoices();
-  }
-
-  speak () {
+  speak = () => {
     if (this.synth.speaking) {
       return;
     }
     if (this.state.text !== '') {
       const utterThis = new SpeechSynthesisUtterance(this.state.text);
-      for (let i = 0; i < this.voices.length; i++) {
-        if (this.voices[i].name === this.state.voice) {
-          utterThis.voice = this.voices[i];
+      for (let i = 0; i < this.state.voices.length; i++) {
+        if (this.state.voices[i].name === this.state.voice) {
+          utterThis.voice = this.state.voices[i];
         }
       }
 
@@ -45,15 +38,15 @@ class SpeechSynthesis extends Component {
       utterThis.rate = this.state.rate;
       this.synth.speak(utterThis);
     }
-  }
+  };
 
-  handleChange ({ target: { value, name } }) {
+  handleChange = ({ target: { value, name } }) => {
     this.setState({ [name]: value });
-  }
+  };
 
-  handleSelectChange ({ target: { value } }) {
-    this.setState(state => ({ voice: value }), this.speak);
-  }
+  handleSelectChange = ({ target: { value } }) => {
+    this.setState({ voice: value }, this.speak);
+  };
 
   render () {
     return (
@@ -95,7 +88,7 @@ class SpeechSynthesis extends Component {
           value={this.state.voice}
         >
           {
-            this.voices.map((voice, index) =>
+            this.state.voices.map((voice, index) =>
               <option key={index} value={voice.name}>{`${voice.name} ${voice.lang}`}</option>
             )
           }
