@@ -1,5 +1,6 @@
 .phraseMatcherWrapper {
   height: 100%;
+  width: 100%;
 
   h1, p {
     font-size: 2.5rem;
@@ -7,28 +8,26 @@
     text-align: center;
   }
 
-  .output p {
-    padding: 30px;
-    background-color: rgba(0, 0, 0, 0.2);
+  .output {
+    margin-top: 20px;
+    width: 100%;
     font-size: 2.5rem;
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
-  .output {
-    overflow: auto;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
+  .result {
+    &.right {
+      background-color: lime;
+    }
+
+    &.wrong {
+      color: white;
+      background-color: red;
+    }
   }
 
   button {
-    margin: 0 auto;
-    display: block;
-    width: 170px;
-    line-height: 2;
-    margin-top: 30px;
-    padding: 20px;
-    font-size: 2rem;
+    display: inline-block;
   }
 
   .phrase {
