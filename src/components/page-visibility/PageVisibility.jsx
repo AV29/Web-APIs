@@ -65,11 +65,8 @@ class PageVisibility extends Component {
           <div className="stateContainer">
             {
               this.state.visibilityState.map((data, index) => (
-                <strong
-                  key={index}
-                  className={`state ${index >= stateCount - 2 ? 'markedState' : ''}`}
-                >
-                  {data.state}
+                <strong key={index} className="state">
+                  <span className="currentStateStatus">{data.state}</span>
                   {index === stateCount - 1 && <span className="current">(curr)</span>}
                   {index === stateCount - 2 && <span className="previous">(prev)</span>}
                   <span className="time">{data.time}</span>
@@ -82,16 +79,10 @@ class PageVisibility extends Component {
             autoPlay
             controls
             ref={video => this.videoElement = video}
+            src="https://r5---sn-f5f7lne7.googlevideo.com/videoplayback?id=o-ABZOqVcKvL7V804Tae5eieucxKR0dKThEkfaiPrGbk77&itag=18&source=youtube&requiressl=yes&pl=22&ei=-KrIXNbMFOOVlAPR17IY&mime=video%2Fmp4&gir=yes&clen=14113220&ratebypass=yes&dur=221.611&lmt=1547658005373450&fvip=4&beids=9466585&c=WEB&txp=5531432&ip=181.112.188.38&ipbits=0&expire=1556676440&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,pl,ratebypass,requiressl,source&key=cms1&signature=4E983DE3A81F80CEF2EB4448E5C500F00981042C.234D38788F299A70DB1D7FA306452CBB07FD8C56&video_id=7wfYIMyS_dI&title=Enya+-+Only+Time+%28Official+Music+Video%29&rm=sn-jou-0pvs7s,sn-jou-btxl7z,sn-hp5ze7l&fexp=9466585&req_id=f5bd467e35faa3ee&redirect_counter=3&cms_redirect=yes&ipbypass=yes&mip=178.121.80.172&mm=30&mn=sn-f5f7lne7&ms=nxu&mt=1556658894&mv=m"
             width="480"
             height="360"
-          >
-            <source
-              src="https://r2---sn-4g5ednsl.googlevideo.com/videoplayback?id=o-AJDCyJDjAYjcK8azjfXFC6r1dpc9m7k7nrwqibPKk5hM&itag=18&source=youtube&requiressl=yes&pl=19&ei=j8vFXK_MNeGoz7sPzMeo0As&mime=video%2Fmp4&gir=yes&clen=10264094&ratebypass=yes&dur=247.338&lmt=1443298675445856&fvip=2&c=WEB&ip=59.91.123.94&ipbits=0&expire=1556488176&sparams=clen,dur,ei,expire,gir,id,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,pl,ratebypass,requiressl,source&key=cms1&signature=6E1EB422F000FD6A4C61EC5D195C2A7646832BE3.780324EACA257DE5642BF797934C211F83D8310F&video_id=f56lELufeQE&title=Enigma+Return+to+Innocence+Music+Video+Official&rm=sn-qxay7d&req_id=55c397c701b8a3ee&ipbypass=yes&mip=46.56.230.230&cm2rm=sn-ivhxoxufvg3g0-hn9e7l,sn-gvnuxaxjvh-n8vk7d&redirect_counter=3&cms_redirect=yes&mm=30&mn=sn-4g5ednsl&ms=nxu&mt=1556466517&mv=m"
-              type="video/mp4"
-              media="all and (max-width:680px)"
-            />
-            <p>Oops!</p>
-          </video>
+          />
         </div>
       </div>
     );

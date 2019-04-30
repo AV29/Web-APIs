@@ -93,7 +93,7 @@ class FaceDetection extends React.Component {
         dataItems[i].getAsString((s) => {
           console.log('... Drop: Text');
           const draggableItem = document.getElementById(s);
-          if (event.target === this.trash) {
+          if (event.target === this.trash && draggableItem) {
             draggableItem.parentElement.removeChild(draggableItem);
             this.setState({ imageAppeared: null, codes: [], codesTop: 0 });
             document.querySelectorAll('.detected-face-box').forEach(el => el.parentElement.removeChild(el));

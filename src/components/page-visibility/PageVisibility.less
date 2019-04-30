@@ -15,23 +15,28 @@
   .state {
     font-size: 2rem;
     text-align: left;
-    text-decoration: line-through;
     display: block;
 
-    &.markedState {
-      text-decoration: none;
+    .currentStateStatus {
+    }
 
+    span {
+      margin-right: 10px;
+      text-decoration: line-through;
+    }
+
+    &:nth-last-of-type(1), &:nth-last-of-type(2) {
       span {
-        margin-left: 10px;
+        text-decoration: none;
       }
+    }
 
-      &:nth-last-of-type(1) {
-        color: #52b562;
-      }
+    &:nth-last-of-type(1) {
+      color: #52b562;
+    }
 
-      &:nth-last-of-type(2) {
-        color: #ff6347;
-      }
+    &:nth-last-of-type(2) {
+      color: #ff6347;
     }
 
     .current {
@@ -44,7 +49,6 @@
 
     .time {
       font-size: 14px;
-      margin-left: 10px;
     }
   }
 
